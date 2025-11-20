@@ -2,8 +2,8 @@ import { getTranslations } from 'next-intl/server'
 import Header from '@/components/Header'
 import Footer from '@/components/sections/Footer'
 
-export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
-  const { locale } = await params
+export async function generateMetadata({ params }: { params: { locale: string } }) {
+  const { locale } = params
   const t = await getTranslations({ locale, namespace: 'privacy' })
 
   return {
@@ -12,8 +12,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   }
 }
 
-export default async function PrivacyPage({ params }: { params: Promise<{ locale: string }> }) {
-  const { locale } = await params as { locale: 'ja' | 'zh' }
+export default async function PrivacyPage({ params }: { params: { locale: string } }) {
+  const { locale } = params as { locale: 'ja' | 'zh' }
   const t = await getTranslations({ locale, namespace: 'privacy' })
 
   const sections = [

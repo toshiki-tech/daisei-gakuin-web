@@ -5,8 +5,8 @@ import Pricing from '@/components/sections/Pricing'
 import { getAllCourseCategories } from '@/lib/content/courseStructure'
 import Link from 'next/link'
 
-export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
-  const { locale } = await params
+export async function generateMetadata({ params }: { params: { locale: string } }) {
+  const { locale } = params
   const t = await getTranslations({ locale, namespace: 'courses' })
 
   return {
@@ -15,8 +15,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   }
 }
 
-export default async function CoursesIndexPage({ params }: { params: Promise<{ locale: string }> }) {
-  const { locale } = await params as { locale: 'ja' | 'zh' }
+export default async function CoursesIndexPage({ params }: { params: { locale: string } }) {
+  const { locale } = params as { locale: 'ja' | 'zh' }
   const allCategories = getAllCourseCategories()
   
   // 分离中文课程和其他课程

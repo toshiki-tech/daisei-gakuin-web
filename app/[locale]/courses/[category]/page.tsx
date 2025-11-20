@@ -15,9 +15,9 @@ export async function generateStaticParams() {
 export async function generateMetadata({ 
   params 
 }: { 
-  params: Promise<{ locale: string; category: string }> 
+  params: { locale: string; category: string } 
 }) {
-  const { locale, category: categoryId } = await params
+  const { locale, category: categoryId } = params
   const category = getCourseCategoryById(categoryId)
   
   if (!category) {
@@ -35,9 +35,9 @@ export async function generateMetadata({
 export default async function CategoryPage({ 
   params 
 }: { 
-  params: Promise<{ locale: string; category: string }> 
+  params: { locale: string; category: string } 
 }) {
-  const { locale, category: categoryId } = await params
+  const { locale, category: categoryId } = params
   const localeTyped = locale as 'ja' | 'zh'
   const category = getCourseCategoryById(categoryId)
 

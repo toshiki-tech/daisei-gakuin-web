@@ -3,8 +3,8 @@ import Footer from '@/components/sections/Footer'
 import { getAllNews } from '@/lib/content/news'
 import NewsList from '@/components/news/NewsList'
 
-export default async function NewsPage({ params }: { params: Promise<{ locale: string }> }) {
-  const { locale } = await params
+export default async function NewsPage({ params }: { params: { locale: string } }) {
+  const { locale } = params
   const news = getAllNews()
 
   return (

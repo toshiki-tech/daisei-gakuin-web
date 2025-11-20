@@ -4,7 +4,7 @@ import Footer from '@/components/sections/Footer'
 import { getNewsBySlug, getAllNews } from '@/lib/content/news'
 import NewsDetail from '@/components/news/NewsDetail'
 
-export async function generateStaticParams({ params }: { params: Promise<{ locale: string }> }) {
+export async function generateStaticParams() {
   const news = getAllNews()
   return news.map((post) => ({
     slug: post.slug,
@@ -14,9 +14,9 @@ export async function generateStaticParams({ params }: { params: Promise<{ local
 export default async function NewsDetailPage({
   params,
 }: {
-  params: Promise<{ locale: string; slug: string }>
+  params: { locale: string; slug: string }
 }) {
-  const { locale, slug } = await params
+  const { locale, slug } = params
   const post = getNewsBySlug(slug)
 
   if (!post) {

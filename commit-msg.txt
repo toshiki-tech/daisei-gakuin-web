@@ -1,0 +1,2 @@
+修复静态导出 - 将所有 params 从 Promise 改为直接对象，并改进 i18n/request.ts 的错误处理
+

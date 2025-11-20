@@ -3,9 +3,9 @@ import Header from '@/components/Header'
 import Footer from '@/components/sections/Footer'
 import Image from 'next/image'
 
-export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+export async function generateMetadata({ params }: { params: { locale: string } }) {
   try {
-    const { locale } = await params
+    const { locale } = params
     const t = await getTranslations({ locale, namespace: 'method' })
 
     return {
@@ -20,9 +20,9 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   }
 }
 
-export default async function MethodPage({ params }: { params: Promise<{ locale: string }> }) {
+export default async function MethodPage({ params }: { params: { locale: string } }) {
   try {
-    const { locale } = await params as { locale: 'ja' | 'zh' }
+    const { locale } = params as { locale: 'ja' | 'zh' }
     const t = await getTranslations({ locale, namespace: 'method' })
 
     const pointKeys = ['literature', 'martial', 'emotion', 'output', 'timeline']
