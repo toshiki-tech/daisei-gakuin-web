@@ -1,7 +1,7 @@
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages, getTranslations } from 'next-intl/server'
 import { notFound } from 'next/navigation'
-import { locales } from '@/i18n/config'
+import { locales, defaultLocale } from '@/i18n/config'
 import type { Metadata } from 'next'
 import LocaleHtml from '@/components/LocaleHtml'
 
@@ -54,7 +54,15 @@ export default async function LocaleLayout({
       notFound()
     }
 
-    const messages = await getMessages({ locale })
+    // Safely get messages with error handling
+    let messages
+    try {
+      messages = await getMessages({ locale })
+    } catch (error) {
+      // If getMessages fails, try to load messages directly
+      console.error('getMessages error:', error)
+      messages = (await import(`../../messages/${locale}.json`)).default
+    }
 
     return (
       <NextIntlClientProvider messages={messages} locale={locale}>
@@ -64,14 +72,14 @@ export default async function LocaleLayout({
     )
   } catch (error) {
     console.error('Layout error:', error)
+    // Fallback to default locale
+    const fallbackLocale = defaultLocale
+    const fallbackMessages = (await import(`../../messages/${fallbackLocale}.json`)).default
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold mb-4">エラーが発生しました</h1>
-          <p className="text-gray-600">レイアウトの読み込み中にエラーが発生しました。</p>
-          <pre className="mt-4 text-sm text-left">{String(error)}</pre>
-        </div>
-      </div>
+      <NextIntlClientProvider messages={fallbackMessages} locale={fallbackLocale}>
+        <LocaleHtml />
+        {children}
+      </NextIntlClientProvider>
     )
   }
 }
