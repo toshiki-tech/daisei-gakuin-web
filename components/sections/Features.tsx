@@ -3,6 +3,8 @@
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''
+
 export default function Features() {
   const t = useTranslations('features')
   
@@ -10,17 +12,17 @@ export default function Features() {
     {
       icon: '🎯',
       key: 'pronunciation',
-      image: '/images/features/feature-1.jpg',
+      image: `${basePath}/images/features/feature-1.jpg`,
     },
     {
       icon: '⚔️',
       key: 'method',
-      image: '/images/features/feature-2.jpg',
+      image: `${basePath}/images/features/feature-2.jpg`,
     },
     {
       icon: '📚',
       key: 'levels',
-      image: '/images/features/feature-3.jpg',
+      image: `${basePath}/images/features/feature-3.jpg`,
     },
   ]
 

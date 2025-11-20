@@ -3,6 +3,8 @@
 import Image from 'next/image'
 import { useState } from 'react'
 
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''
+
 interface LogoProps {
   size?: number
   className?: string
@@ -30,7 +32,7 @@ export default function Logo({ size = 64, className = '', invert = false, varian
   return (
     <div className={`relative ${className}`} style={{ width: size, height: size }}>
       <Image
-        src="/images/logo/daisei-logo.jpg"
+        src={`${basePath}/images/logo/daisei-logo.jpg`}
         alt="大成学院"
         width={size}
         height={size}
@@ -49,7 +51,7 @@ function HeaderLogo({ className = '' }: { className?: string }) {
       {/* Logo Image */}
       <div className="relative flex-shrink-0" style={{ width: 64, height: 64 }}>
         <Image
-          src="/images/logo/daisei-logo.png"
+          src={`${basePath}/images/logo/daisei-logo.png`}
           alt="大成学院"
           width={64}
           height={64}

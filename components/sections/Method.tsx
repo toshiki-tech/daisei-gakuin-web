@@ -3,6 +3,8 @@
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''
+
 export default function Method() {
   const t = useTranslations('method')
   
@@ -46,7 +48,7 @@ export default function Method() {
           {/* Right Image */}
           <div className="hidden lg:block relative h-96 rounded-2xl overflow-hidden shadow-xl">
             <Image
-              src="/images/method/method-teaching.jpg"
+              src={`${basePath}/images/method/method-teaching.jpg`}
               alt={t('imageAlt')}
               fill
               className="object-cover"

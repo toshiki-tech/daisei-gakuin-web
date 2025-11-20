@@ -5,6 +5,8 @@ import { useTranslations, useLocale } from 'next-intl'
 import Link from 'next/link'
 import { Course } from '@/types/content'
 
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''
+
 interface CoursesListProps {
   courses: Course[]
   locale: 'ja' | 'zh'
@@ -27,7 +29,7 @@ export default function CoursesList({ courses, locale }: CoursesListProps) {
             >
               <div className="relative h-48 overflow-hidden">
                 <Image
-                  src={course.photo}
+                  src={`${basePath}${course.photo}`}
                   alt={course.name[locale]}
                   fill
                   className="object-cover"

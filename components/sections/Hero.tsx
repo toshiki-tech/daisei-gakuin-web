@@ -4,6 +4,8 @@ import Image from 'next/image'
 import { useTranslations, useLocale } from 'next-intl'
 import Link from 'next/link'
 
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''
+
 export default function Hero() {
   const t = useTranslations('hero')
   const locale = useLocale()
@@ -12,7 +14,7 @@ export default function Hero() {
       {/* Background Image with Blur */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/images/hero/image-fan.png"
+          src={`${basePath}/images/hero/image-fan.png`}
           alt=""
           fill
           className="object-cover"

@@ -3,6 +3,8 @@
 import Image from 'next/image'
 import { useTranslations, useLocale } from 'next-intl'
 
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''
+
 export default function Testimonials() {
   const t = useTranslations('testimonials')
   const locale = useLocale() as 'ja' | 'zh'
@@ -24,7 +26,7 @@ export default function Testimonials() {
               <div className="flex items-center gap-4 mb-4">
                 <div className="relative w-12 h-12 rounded-full overflow-hidden flex-shrink-0">
                   <Image
-                    src={`/images/testimonials/student-${key}.jpg`}
+                    src={`${basePath}/images/testimonials/student-${key}.jpg`}
                     alt={t(`items.${key}.name`)}
                     fill
                     className="object-cover"

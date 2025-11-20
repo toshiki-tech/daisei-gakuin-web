@@ -4,6 +4,8 @@ import Footer from '@/components/sections/Footer'
 import Image from 'next/image'
 import { defaultLocale } from '@/i18n/config'
 
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''
+
 export async function generateMetadata({ params }: { params?: { locale?: string } }) {
   try {
     const locale = (params?.locale as 'ja' | 'zh') ?? defaultLocale
@@ -92,7 +94,7 @@ export default async function MethodPage({ params }: { params?: { locale?: strin
                 {/* Right Image */}
                 <div className="relative h-96 lg:h-[500px] rounded-2xl overflow-hidden shadow-xl">
                   <Image
-                    src="/images/method/method-teaching.jpg"
+                    src={`${basePath}/images/method/method-teaching.jpg`}
                     alt={t('imageAlt')}
                     fill
                     className="object-cover"
