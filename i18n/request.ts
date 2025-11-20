@@ -2,36 +2,25 @@ import { notFound } from 'next/navigation'
 import { getRequestConfig } from 'next-intl/server'
 import { locales, defaultLocale, type Locale } from './config'
 
-export default getRequestConfig(async ({ locale, requestLocale }) => {
-  // For static export, prefer explicit locale parameter if provided
-  let resolvedLocale: string = defaultLocale
+export default getRequestConfig(async ({ requestLocale }) => {
+  // For static export, requestLocale should come from the route params
+  // If it's not available, we'll use the default locale
+  let locale = await requestLocale
   
-  // If explicit locale is provided, use it
-  if (locale && locales.includes(locale as Locale)) {
-    resolvedLocale = locale
-  } else {
-    // Otherwise, try to get from requestLocale
-    try {
-      const localeFromRequest = await requestLocale
-      if (localeFromRequest && locales.includes(localeFromRequest as Locale)) {
-        resolvedLocale = localeFromRequest
-      }
-    } catch (error) {
-      // During static export, requestLocale might fail if it tries to access headers
-      // In this case, we'll use the default locale
-      // The actual locale will be determined from the route params during static generation
-      resolvedLocale = defaultLocale
-    }
+  // If locale is not provided (e.g., during static generation), use default
+  if (!locale) {
+    locale = defaultLocale
   }
   
-  // Ensure that a valid locale is used
-  if (!resolvedLocale || !locales.includes(resolvedLocale as Locale)) {
-    resolvedLocale = defaultLocale
+  // Validate that the incoming `locale` parameter is valid
+  if (!locales.includes(locale as Locale)) {
+    // During static export, don't call notFound(), just use default locale
+    locale = defaultLocale
   }
 
   return {
-    locale: resolvedLocale,
-    messages: (await import(`../messages/${resolvedLocale}.json`)).default
+    locale,
+    messages: (await import(`../messages/${locale}.json`)).default
   }
 })
 
