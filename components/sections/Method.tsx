@@ -46,7 +46,7 @@ export default function Method() {
           </div>
 
           {/* Right Image */}
-          <div className="hidden lg:block relative h-96 rounded-2xl overflow-hidden shadow-xl">
+          <div className="hidden lg:block relative rounded-2xl overflow-hidden shadow-xl" style={{ aspectRatio: '1280/1378' }}>
             <Image
               src={`${basePath}/images/method/method-teaching.jpg`}
               alt={t('imageAlt')}

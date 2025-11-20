@@ -92,7 +92,7 @@ export default async function MethodPage({ params }: { params?: { locale?: strin
                 </div>
 
                 {/* Right Image */}
-                <div className="relative h-96 lg:h-[500px] rounded-2xl overflow-hidden shadow-xl">
+                <div className="relative rounded-2xl overflow-hidden shadow-xl" style={{ aspectRatio: '1280/1378' }}>
                   <Image
                     src={`${basePath}/images/method/method-teaching.jpg`}
                     alt={t('imageAlt')}
