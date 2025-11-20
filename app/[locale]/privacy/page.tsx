@@ -28,7 +28,7 @@ export default async function PrivacyPage({ params }: { params: Promise<{ locale
     'dataRetention',
     'children',
     'changes',
-    'contact',
+    // 'contact' is handled separately below
   ]
 
   return (
