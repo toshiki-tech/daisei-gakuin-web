@@ -1,27 +1,34 @@
 import { getRequestConfig } from 'next-intl/server'
 import { locales, defaultLocale, type Locale } from './config'
 
-export default getRequestConfig(async (request: any) => {
-  // 处理静态导出时 request 可能为 undefined、null 或格式不同的情况
-  let locale: string = defaultLocale
+export default getRequestConfig(async ({ locale, requestLocale }) => {
+  // 处理静态导出时参数可能为 undefined 的情况
+  let resolvedLocale: string = defaultLocale
   
-  // 安全地检查 request 是否存在且包含 locale
-  // 在静态导出时，request 可能是 undefined 或格式不同
-  if (request && typeof request === 'object' && request.locale) {
-    const requestLocale = request.locale
-    if (typeof requestLocale === 'string' && locales.includes(requestLocale as Locale)) {
-      locale = requestLocale
+  // 优先使用显式传入的 locale
+  if (locale && locales.includes(locale as Locale)) {
+    resolvedLocale = locale
+  } else {
+    // 否则从 requestLocale Promise 中获取
+    try {
+      const localeFromRequest = await requestLocale
+      if (localeFromRequest && locales.includes(localeFromRequest as Locale)) {
+        resolvedLocale = localeFromRequest
+      }
+    } catch (error) {
+      // 如果获取失败，使用默认语言
+      // 在静态导出时，这可能是正常的
     }
   }
   
   // Ensure that a valid locale is used
-  if (!locale || !locales.includes(locale as Locale)) {
-    locale = defaultLocale
+  if (!resolvedLocale || !locales.includes(resolvedLocale as Locale)) {
+    resolvedLocale = defaultLocale
   }
 
   return {
-    locale: locale as string,
-    messages: (await import(`../messages/${locale}.json`)).default
+    locale: resolvedLocale as string,
+    messages: (await import(`../messages/${resolvedLocale}.json`)).default
   }
 })
 
