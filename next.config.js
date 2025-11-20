@@ -1,5 +1,7 @@
 const createNextIntlPlugin = require('next-intl/plugin');
 
+// 参考 qiejingxuan-art-studio-web 项目，使用默认配置路径
+// 如果使用 './i18n/request.ts'，需要确保文件存在且格式正确
 const withNextIntl = createNextIntlPlugin('./i18n/request.ts');
 
 // 检测是否为 GitHub Pages 部署

@@ -1,34 +1,26 @@
+import { notFound } from 'next/navigation'
 import { getRequestConfig } from 'next-intl/server'
 import { locales, defaultLocale, type Locale } from './config'
 
-export default getRequestConfig(async ({ locale, requestLocale }) => {
-  // 处理静态导出时参数可能为 undefined 的情况
-  let resolvedLocale: string = defaultLocale
+export default getRequestConfig(async ({ requestLocale }) => {
+  // For static export, requestLocale should come from the route params
+  // If it's not available, we'll use the default locale
+  let locale = await requestLocale
   
-  // 优先使用显式传入的 locale
-  if (locale && locales.includes(locale as Locale)) {
-    resolvedLocale = locale
-  } else {
-    // 否则从 requestLocale Promise 中获取
-    try {
-      const localeFromRequest = await requestLocale
-      if (localeFromRequest && locales.includes(localeFromRequest as Locale)) {
-        resolvedLocale = localeFromRequest
-      }
-    } catch (error) {
-      // 如果获取失败，使用默认语言
-      // 在静态导出时，这可能是正常的
-    }
+  // If locale is not provided (e.g., during static generation), use default
+  if (!locale) {
+    locale = defaultLocale
   }
   
-  // Ensure that a valid locale is used
-  if (!resolvedLocale || !locales.includes(resolvedLocale as Locale)) {
-    resolvedLocale = defaultLocale
+  // Validate that the incoming `locale` parameter is valid
+  if (!locales.includes(locale as Locale)) {
+    // During static export, don't call notFound(), just use default locale
+    locale = defaultLocale
   }
 
   return {
-    locale: resolvedLocale as string,
-    messages: (await import(`../messages/${resolvedLocale}.json`)).default
+    locale,
+    messages: (await import(`../messages/${locale}.json`)).default
   }
 })
 
