@@ -2,10 +2,11 @@ import { getTranslations } from 'next-intl/server'
 import Header from '@/components/Header'
 import Footer from '@/components/sections/Footer'
 import Image from 'next/image'
+import { defaultLocale } from '@/i18n/config'
 
-export async function generateMetadata({ params }: { params: { locale: string } }) {
+export async function generateMetadata({ params }: { params?: { locale?: string } }) {
   try {
-    const { locale } = params
+    const locale = (params?.locale as 'ja' | 'zh') ?? defaultLocale
     const t = await getTranslations({ locale, namespace: 'method' })
 
     return {
@@ -20,9 +21,9 @@ export async function generateMetadata({ params }: { params: { locale: string } 
   }
 }
 
-export default async function MethodPage({ params }: { params: { locale: string } }) {
+export default async function MethodPage({ params }: { params?: { locale?: string } }) {
   try {
-    const { locale } = params as { locale: 'ja' | 'zh' }
+    const locale = (params?.locale as 'ja' | 'zh') ?? defaultLocale
     const t = await getTranslations({ locale, namespace: 'method' })
 
     const pointKeys = ['literature', 'martial', 'emotion', 'output', 'timeline']

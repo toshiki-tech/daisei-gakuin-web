@@ -1,9 +1,9 @@
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
-import { notFound } from 'next/navigation'
+import { defaultLocale } from '@/i18n/config'
 
-export default async function NotFound({ params }: { params: { locale: string } }) {
-  const { locale } = params
+export default async function NotFound({ params }: { params?: { locale?: string } }) {
+  const locale = (params?.locale as 'ja' | 'zh') ?? defaultLocale
   const t = await getTranslations({ locale, namespace: 'common' })
 
   return (
@@ -23,4 +23,4 @@ export default async function NotFound({ params }: { params: { locale: string } 
     </div>
   )
 }
-
+	

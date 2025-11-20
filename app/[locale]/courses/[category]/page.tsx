@@ -4,6 +4,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/sections/Footer'
 import { getCourseCategoryById, getAllCourseCategories } from '@/lib/content/courseStructure'
 import Link from 'next/link'
+import { defaultLocale } from '@/i18n/config'
 
 export async function generateStaticParams() {
   const categories = getAllCourseCategories()
@@ -15,10 +16,11 @@ export async function generateStaticParams() {
 export async function generateMetadata({ 
   params 
 }: { 
-  params: { locale: string; category: string } 
+  params?: { locale?: string; category?: string } 
 }) {
-  const { locale, category: categoryId } = params
-  const category = getCourseCategoryById(categoryId)
+  const locale = (params?.locale as 'ja' | 'zh') ?? defaultLocale
+  const categoryId = params?.category
+  const category = categoryId ? getCourseCategoryById(categoryId) : null
   
   if (!category) {
     return {
@@ -27,19 +29,20 @@ export async function generateMetadata({
   }
 
   return {
-    title: category.name[locale as 'ja' | 'zh'],
-    description: category.description[locale as 'ja' | 'zh'],
+    title: category.name[locale],
+    description: category.description[locale],
   }
 }
 
 export default async function CategoryPage({ 
   params 
 }: { 
-  params: { locale: string; category: string } 
+  params?: { locale?: string; category?: string } 
 }) {
-  const { locale, category: categoryId } = params
+  const locale = (params?.locale as 'ja' | 'zh') ?? defaultLocale
+  const categoryId = params?.category
   const localeTyped = locale as 'ja' | 'zh'
-  const category = getCourseCategoryById(categoryId)
+  const category = categoryId ? getCourseCategoryById(categoryId) : null
 
   if (!category) {
     notFound()

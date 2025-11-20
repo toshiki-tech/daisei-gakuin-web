@@ -1,9 +1,10 @@
 import { getTranslations } from 'next-intl/server'
 import Header from '@/components/Header'
 import Footer from '@/components/sections/Footer'
+import { defaultLocale } from '@/i18n/config'
 
-export async function generateMetadata({ params }: { params: { locale: string } }) {
-  const { locale } = params
+export async function generateMetadata({ params }: { params?: { locale?: string } }) {
+  const locale = (params?.locale as 'ja' | 'zh') ?? defaultLocale
   const t = await getTranslations({ locale, namespace: 'privacy' })
 
   return {
@@ -12,8 +13,8 @@ export async function generateMetadata({ params }: { params: { locale: string } 
   }
 }
 
-export default async function PrivacyPage({ params }: { params: { locale: string } }) {
-  const { locale } = params as { locale: 'ja' | 'zh' }
+export default async function PrivacyPage({ params }: { params?: { locale?: string } }) {
+  const locale = (params?.locale as 'ja' | 'zh') ?? defaultLocale
   const t = await getTranslations({ locale, namespace: 'privacy' })
 
   const sections = [

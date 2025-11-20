@@ -3,6 +3,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/sections/Footer'
 import { getNewsBySlug, getAllNews } from '@/lib/content/news'
 import NewsDetail from '@/components/news/NewsDetail'
+import { defaultLocale } from '@/i18n/config'
 
 export async function generateStaticParams() {
   const news = getAllNews()
@@ -14,10 +15,11 @@ export async function generateStaticParams() {
 export default async function NewsDetailPage({
   params,
 }: {
-  params: { locale: string; slug: string }
+  params?: { locale?: string; slug?: string }
 }) {
-  const { locale, slug } = params
-  const post = getNewsBySlug(slug)
+  const locale = (params?.locale as 'ja' | 'zh') ?? defaultLocale
+  const slug = params?.slug
+  const post = slug ? getNewsBySlug(slug) : null
 
   if (!post) {
     notFound()
@@ -27,7 +29,7 @@ export default async function NewsDetailPage({
     <main className="min-h-screen">
       <Header />
       <div className="pt-20">
-        <NewsDetail post={post} locale={locale as 'ja' | 'zh'} />
+        <NewsDetail post={post} locale={locale} />
       </div>
       <Footer />
     </main>
