@@ -4,23 +4,20 @@ const createNextIntlPlugin = require('next-intl/plugin');
 // 如果使用 './i18n/request.ts'，需要确保文件存在且格式正确
 const withNextIntl = createNextIntlPlugin('./i18n/request.ts');
 
-// 检测是否为 GitHub Pages 部署
-const isGithubPages = process.env.GITHUB_ACTIONS === 'true' || process.env.NEXT_PUBLIC_BASE_PATH;
-const basePath = process.env.NEXT_PUBLIC_BASE_PATH || (isGithubPages ? '/daisei-gakuin-web' : '');
+// 获取仓库名（从环境变量或默认值）
+const repoName = process.env.GITHUB_REPOSITORY?.split('/')[1] || 'daisei-gakuin-web';
+const isProduction = process.env.NODE_ENV === 'production';
+const basePath = isProduction ? `/${repoName}` : '';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  // 静态导出配置（用于 GitHub Pages）
-  ...(isGithubPages && {
-    output: 'export',
-    distDir: 'out',
-    basePath: basePath,
-    assetPrefix: basePath,
-  }),
+  // 只在生产环境启用静态导出（用于 GitHub Pages）
+  ...(isProduction && { output: 'export' }),
+  basePath, // 配置基础路径
+  assetPrefix: basePath, // 确保静态资源也使用 basePath
   images: {
-    // GitHub Pages 需要 unoptimized
-    ...(isGithubPages && { unoptimized: true }),
+    unoptimized: true, // GitHub Pages 不支持 Next.js Image 优化
     domains: ['localhost', 'images.unsplash.com'],
     remotePatterns: [
       {
@@ -29,6 +26,9 @@ const nextConfig = {
         pathname: '/**',
       },
     ],
+  },
+  env: {
+    NEXT_PUBLIC_BASE_PATH: basePath, // 在客户端也可以访问 basePath
   },
   // 禁用 trailingSlash 以确保路由正确
   trailingSlash: false,
