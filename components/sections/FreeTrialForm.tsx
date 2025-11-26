@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useTranslations, useLocale } from 'next-intl'
+import { supabase } from '@/lib/supabase'
 
 interface FormData {
   name: string
@@ -105,10 +106,6 @@ export default function FreeTrialForm() {
     setSubmitStatus('idle')
 
     try {
-      // Supabase 配置
-      const supabaseUrl = 'https://lumlfzmdrheesrzsuyfy.supabase.co'
-      const anonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx1bWxmem1kcmhlZXNyenN1eWZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxMzc2MTksImV4cCI6MjA3OTcxMzYxOX0.QXWSqLZ43E3_GG49p5z4BX7ww2u2Pr_7vwxuHh6Hua8'
-      
       // 准备提交数据
       const payload = {
         name: formData.name.trim(),
@@ -126,38 +123,20 @@ export default function FreeTrialForm() {
         status: 'pending',
       }
 
-      const apiUrl = supabaseUrl + '/rest/v1/dcxy_free_trial_applications'
-      
-      console.log('Submitting to:', apiUrl)
-      console.log('Payload:', payload)
+      console.log('Submitting payload to Supabase:', payload)
 
-      // 使用 JSON.stringify 确保正确序列化，包括中文字符
-      const jsonBody = JSON.stringify(payload)
+      const { data, error } = await supabase
+        .from('dcxy_free_trial_applications')
+        .insert([payload])
 
-      const response = await fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-          'apikey': anonKey,
-          'Authorization': 'Bearer ' + anonKey,
-          'Prefer': 'return=representation',
-        },
-        body: jsonBody,
-      })
-
-      console.log('Response status:', response.status)
-      console.log('Response headers:', Object.fromEntries(response.headers.entries()))
-
-      if (!response.ok) {
-        const errorText = await response.text()
-        console.error('API Error Response:', errorText)
+      if (error) {
+        console.error('Supabase insert error:', error)
         setSubmitStatus('error')
         setIsSubmitting(false)
         return
       }
 
-      const data = await response.json()
-      console.log('Response data:', data)
+      console.log('Supabase insert result:', data)
 
       // 提交成功
       setSubmitStatus('success')

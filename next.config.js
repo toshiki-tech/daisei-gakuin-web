@@ -7,13 +7,16 @@ const withNextIntl = createNextIntlPlugin('./i18n/request.ts');
 // 获取仓库名（从环境变量或默认值）
 const repoName = process.env.GITHUB_REPOSITORY?.split('/')[1] || 'daisei-gakuin-web';
 const isProduction = process.env.NODE_ENV === 'production';
-const basePath = isProduction ? `/${repoName}` : '';
+// 在 Vercel 上不使用 basePath，只在 GitHub Pages 静态导出时使用
+const isVercel = !!process.env.VERCEL;
+const isGitHubPages = isProduction && !isVercel;
+const basePath = isGitHubPages ? `/${repoName}` : '';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  // 只在生产环境启用静态导出（用于 GitHub Pages）
-  ...(isProduction && { output: 'export' }),
+  // 只在 GitHub Pages 的构建中启用静态导出
+  ...(isGitHubPages && { output: 'export' }),
   basePath, // 配置基础路径
   assetPrefix: basePath, // 确保静态资源也使用 basePath
   images: {
