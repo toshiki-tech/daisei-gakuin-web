@@ -1,7 +1,7 @@
 {
   "common": {
     "siteName": "大成学院",
-    "tagline": "日本人のための本格中国語教室\n日本語・英語コースも開講中"
+    "tagline": "日本人のための本格中国語学院\n体系的な多言語教育で、実践的コミュニケーション力と文化的教養を育成"
   },
   "nav": {
     "home": "ホーム",
@@ -33,11 +33,11 @@
       },
       "method": {
         "title": "文武兼修・文化統合の大成メソッド®",
-        "description": "文法と実践を融合した独自のメソッドで、真の中国語力を身につけます。"
+        "description": "文武兼修のアプローチで、理論学習と実践運用を通じて文化体験を取り入れ、中国語能力を総合的に向上させます。"
       },
       "levels": {
-        "title": "初級〜上級・ビジネス・HSKまで対応",
-        "description": "初心者から上級者まで、目的に応じたコースをご用意。HSK対策も万全です。"
+        "title": "初級〜上級・ビジネス・YCT・HSKまで対応",
+        "description": "初心者から上級者まで、目的に応じたコースをご用意。YCT・HSK対策も万全です。"
       }
     }
   },
@@ -94,6 +94,16 @@
         "title": "個別レッスン（プライベート）",
         "description": "一人ひとりのニーズに合わせた完全オーダーメイドレッスン。最短で目標達成を目指します。"
       }
+    }
+  },
+  "history": {
+    "title": "学院の歩み",
+    "present": "現在",
+    "items": {
+      "adultChinese": "成人向けの中国語クラスが始まる。",
+      "childrenClasses": "華僑の子供たちに向けたクラスを開講。",
+      "languageClasses": "日本語クラス、英語クラスが始まる。",
+      "culturalCourses": "中国武術の道場と連携して、武術コース、書道コース、絵画コース等を開設し、今日まで至る。"
     }
   },
   "method": {
@@ -244,8 +254,85 @@
     "note": "※ 無料体験レッスンは、教室・オンラインをご用意しています。",
     "noteSub": "※ 一部のプログラムは、無料オンライン体験または受講相談のみとなる場合がございます。"
   },
+  "freeTrialForm": {
+    "title": "無料体験レッスン",
+    "subtitle": "zoomを利用したオンライン見学・体験レッスンも随時受付中です。通学が難しい方、遠方の方もお気軽にお問合せください。",
+    "fields": {
+      "name": "お名前",
+      "nameRequired": "お名前を入力してください",
+      "email": "メールアドレス",
+      "emailRequired": "メールアドレスを入力してください",
+      "emailInvalid": "有効なメールアドレスを入力してください",
+      "phone": "お電話番号",
+      "phoneRequired": "お電話番号を入力してください",
+      "preferredTime": "ご希望時間",
+      "preferredTime1": "第1希望時間",
+      "preferredTime2": "第2希望時間",
+      "preferredTimeRequired": "希望時間を選択してください",
+      "interestedCourses": "ご検討のレッスン",
+      "chineseExperience": "中国語の学習歴",
+      "chineseExperienceYes": "有",
+      "chineseExperienceNo": "無",
+      "learningPeriod": "学習期間",
+      "learningPeriodNone": "なし",
+      "learningPeriod3Months": "3ヶ月〜",
+      "learningPeriod6Months": "半年〜",
+      "learningPeriod1Year": "一年〜",
+      "learningPeriod2Years": "2年〜",
+      "learningPeriod3Years": "3年〜",
+      "visitedChina": "中国に行ったこと",
+      "visitedChinaYes": "有",
+      "visitedChinaNo": "無",
+      "chinaVisitCount": "回数",
+      "chinaVisitCountNone": "なし",
+      "chinaVisitCount1": "1回",
+      "chinaVisitCount2": "2回",
+      "chinaVisitCount3": "3回",
+      "chinaVisitCount4": "4回",
+      "chinaVisitCount5": "5回〜",
+      "learningPurpose": "学習目的",
+      "learningPurposePlaceholder": "学習目的をご記入ください（子供レッスンご希望の方はお子さんの年齢も教えてください）",
+      "privacyAgreed": "個人情報の取り扱いについて同意します",
+      "privacyAgreedRequired": "個人情報の取り扱いに同意してください"
+    },
+    "courseOptions": {
+      "chineseKids": "中国語（子供向け）",
+      "chineseAdults": "中国語（成人向け）",
+      "chineseCorporate": "中国語（企業向け）",
+      "japanese": "日本語",
+      "english": "英語",
+      "groupLesson": "グループレッスン",
+      "privateLesson": "マンツーマンレッスン",
+      "onlineLesson": "オンラインレッスン",
+      "hsk": "HSK検定対策",
+      "yct": "YCT検定対策",
+      "businessChinese": "ビジネス中国語"
+    },
+    "timeSlots": {
+      "10:00": "10:00",
+      "11:00": "11:00",
+      "12:00": "12:00",
+      "13:00": "13:00",
+      "14:00": "14:00",
+      "15:00": "15:00",
+      "16:00": "16:00",
+      "17:00": "17:00",
+      "18:00": "18:00",
+      "19:00": "19:00",
+      "20:00": "20:00",
+      "21:00": "21:00"
+    },
+    "hoursNote": "※ 教室見学の対応時間：平日：10：00～21：00 土曜：10：00～18：00",
+    "hoursNoteSub": "※ 要予約、毎週日曜と祝日は定休日となります",
+    "submitButton": "同意して入力内容を確認する",
+    "submitting": "送信中...",
+    "successTitle": "お申し込みありがとうございます",
+    "successMessage": "無料体験レッスンのお申し込みを受け付けました。担当者よりご連絡いたします。",
+    "errorTitle": "エラーが発生しました",
+    "errorMessage": "送信に失敗しました。しばらくしてから再度お試しください。"
+  },
   "footer": {
-    "tagline": "日本人のための本格中国語教室\n日本語・英語コースも開講中",
+    "tagline": "日本人のための本格中国語学院\n体系的な多言語教育で、実践的コミュニケーション力と文化的教養を育成",
     "sections": {
       "navigation": "ナビゲーション",
       "home": "ホーム",

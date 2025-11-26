@@ -1,7 +1,7 @@
 {
   "common": {
     "siteName": "大成学院",
-    "tagline": "面向日本人的专业中文教室。\n日语・英语课程也在开设中"
+    "tagline": "面向日本人的专业本格中文学院\n提供系统化的中文、日本语与英语课程，兼具实用沟通能力与深度文化素养"
   },
   "nav": {
     "home": "首页",
@@ -33,11 +33,11 @@
       },
       "method": {
         "title": "文武兼修・文化融合的大成方法®",
-        "description": "通过融合语法与实践的独特方法，掌握真正的中文能力。"
+        "description": "以文武兼修的方式，在理论学习和实践运用中融入文化体验，全面提升中文能力。"
       },
       "levels": {
-        "title": "初级〜高级・商务・HSK全面对应",
-        "description": "从初学者到高级者，准备了符合目的的课程。HSK对策也很完善。"
+        "title": "初级〜高级・商务・YCT・HSK全面对应",
+        "description": "从初学者到高级者，准备了符合目的的课程。YCT、HSK对策也很完善。"
       }
     }
   },
@@ -94,6 +94,16 @@
         "title": "个别课程（私人）",
         "description": "完全根据每个人的需求定制的课程。以最短时间达成目标。"
       }
+    }
+  },
+  "history": {
+    "title": "学院历程",
+    "present": "至今",
+    "items": {
+      "adultChinese": "开始面向成人的中文课程。",
+      "childrenClasses": "面向华侨儿童开设课程。",
+      "languageClasses": "开始日语课程、英语课程。",
+      "culturalCourses": "与中国武术道场合作，开设武术课程、书法课程、绘画课程等，延续至今。"
     }
   },
   "method": {
@@ -244,8 +254,85 @@
     "note": "※ 免费体验课程，我们准备了教室・在线两种方式。",
     "noteSub": "※ 部分课程可能只有免费在线体验或咨询。"
   },
+  "freeTrialForm": {
+    "title": "免费体验课程",
+    "subtitle": "我们也随时接受使用zoom的在线参观・体验课程。通学困难或远方的朋友也欢迎咨询。",
+    "fields": {
+      "name": "姓名",
+      "nameRequired": "请输入姓名",
+      "email": "邮箱地址",
+      "emailRequired": "请输入邮箱地址",
+      "emailInvalid": "请输入有效的邮箱地址",
+      "phone": "电话号码",
+      "phoneRequired": "请输入电话号码",
+      "preferredTime": "希望时间",
+      "preferredTime1": "第1希望时间",
+      "preferredTime2": "第2希望时间",
+      "preferredTimeRequired": "请选择希望时间",
+      "interestedCourses": "考虑的课程",
+      "chineseExperience": "中文学习经历",
+      "chineseExperienceYes": "有",
+      "chineseExperienceNo": "无",
+      "learningPeriod": "学习期间",
+      "learningPeriodNone": "无",
+      "learningPeriod3Months": "3个月〜",
+      "learningPeriod6Months": "半年〜",
+      "learningPeriod1Year": "一年〜",
+      "learningPeriod2Years": "2年〜",
+      "learningPeriod3Years": "3年〜",
+      "visitedChina": "是否去过中国",
+      "visitedChinaYes": "有",
+      "visitedChinaNo": "无",
+      "chinaVisitCount": "次数",
+      "chinaVisitCountNone": "无",
+      "chinaVisitCount1": "1次",
+      "chinaVisitCount2": "2次",
+      "chinaVisitCount3": "3次",
+      "chinaVisitCount4": "4次",
+      "chinaVisitCount5": "5次〜",
+      "learningPurpose": "学习目的",
+      "learningPurposePlaceholder": "请填写学习目的（如希望儿童课程，请告知孩子的年龄）",
+      "privacyAgreed": "同意个人信息处理",
+      "privacyAgreedRequired": "请同意个人信息处理"
+    },
+    "courseOptions": {
+      "chineseKids": "中文（面向儿童）",
+      "chineseAdults": "中文（面向成人）",
+      "chineseCorporate": "中文（面向企业）",
+      "japanese": "日语",
+      "english": "英语",
+      "groupLesson": "小组课程",
+      "privateLesson": "一对一课程",
+      "onlineLesson": "在线课程",
+      "hsk": "HSK考试对策",
+      "yct": "YCT考试对策",
+      "businessChinese": "商务中文"
+    },
+    "timeSlots": {
+      "10:00": "10:00",
+      "11:00": "11:00",
+      "12:00": "12:00",
+      "13:00": "13:00",
+      "14:00": "14:00",
+      "15:00": "15:00",
+      "16:00": "16:00",
+      "17:00": "17:00",
+      "18:00": "18:00",
+      "19:00": "19:00",
+      "20:00": "20:00",
+      "21:00": "21:00"
+    },
+    "hoursNote": "※ 教室参观对应时间：平日：10：00～21：00 周六：10：00～18：00",
+    "hoursNoteSub": "※ 需要预约，每周周日和节假日为定休日",
+    "submitButton": "同意并确认输入内容",
+    "submitting": "提交中...",
+    "successTitle": "感谢您的申请",
+    "successMessage": "免费体验课程的申请已受理。我们会联系您。",
+    "errorTitle": "发生错误",
+    "errorMessage": "提交失败。请稍后再试。"
+  },
   "footer": {
-    "tagline": "面向日本人的专业中文教室。\n日语・英语课程也在开设中",
+    "tagline": "面向日本人的专业本格中文学院\n提供系统化的中文、日本语与英语课程，兼具实用沟通能力与深度文化素养",
     "sections": {
       "navigation": "导航",
       "home": "首页",
