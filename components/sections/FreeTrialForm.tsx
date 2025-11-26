@@ -359,14 +359,14 @@ export default function FreeTrialForm() {
               'chineseKids',
               'chineseAdults',
               'chineseCorporate',
+              'hsk',
+              'yct',
+              'businessChinese',
               'japanese',
               'english',
               'groupLesson',
               'privateLesson',
               'onlineLesson',
-              'hsk',
-              'yct',
-              'businessChinese',
             ].map((key) => (
               <label key={key} className="flex items-center space-x-2 cursor-pointer">
                 <input
