@@ -3,18 +3,36 @@ import Header from '@/components/Header'
 import Footer from '@/components/sections/Footer'
 import Teachers from '@/components/sections/Teachers'
 import { defaultLocale } from '@/i18n/config'
+import { generateSeoMetadata, getAbsoluteUrl } from '@/lib/seo'
 
 export async function generateMetadata({ params }: { params?: { locale?: string } }) {
   try {
     const locale = (params?.locale as 'ja' | 'zh') ?? defaultLocale
     const t = await getTranslations({ locale, namespace: 'teachers' })
 
+    const title = t('title') || '講師紹介'
+    const description = t('subtitle') || '大成学院の講師紹介'
+    const currentPath = `/${locale}/teachers`
+    const absoluteUrl = getAbsoluteUrl(currentPath)
+
     return {
-      title: t('title') || '講師紹介',
-      description: t('subtitle') || '大成学院の講師紹介',
+      ...generateSeoMetadata({
+        title,
+        description,
+        url: absoluteUrl,
+        locale: locale === 'ja' ? 'ja_JP' : 'zh_CN',
+      }),
+      title,
+      description,
     }
   } catch (error) {
+    const fallbackUrl = getAbsoluteUrl(`/${defaultLocale}/teachers`)
     return {
+      ...generateSeoMetadata({
+        title: '講師紹介',
+        description: '大成学院の講師紹介',
+        url: fallbackUrl,
+      }),
       title: '講師紹介',
       description: '大成学院の講師紹介',
     }

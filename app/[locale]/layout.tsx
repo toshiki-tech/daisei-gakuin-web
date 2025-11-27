@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import { locales, defaultLocale } from '@/i18n/config'
 import type { Metadata } from 'next'
 import LocaleHtml from '@/components/LocaleHtml'
+import { generateSeoMetadata, getAbsoluteUrl } from '@/lib/seo'
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }))
@@ -18,24 +19,52 @@ export async function generateMetadata({
     const locale = (params?.locale as 'ja' | 'zh') ?? defaultLocale
     const t = await getTranslations({ locale, namespace: 'common' })
 
-    return {
+    const siteName = t('siteName') || '大成学院'
+    const description = t('tagline') || '日本人のための本格中国語教室'
+    const currentPath = `/${locale}`
+    const absoluteUrl = getAbsoluteUrl(currentPath)
+
+    // 生成基础 metadata
+    const baseMetadata: Metadata = {
       title: {
-        default: t('siteName') || '大成学院',
-        template: `%s - ${t('siteName') || '大成学院'}`,
+        default: siteName,
+        template: `%s - ${siteName}`,
       },
-      description: t('tagline') || '日本人のための本格中国語教室',
+      description,
       alternates: {
         languages: {
           ja: '/ja',
           zh: '/zh',
         },
+        canonical: absoluteUrl,
       },
+    }
+
+    // 合并 SEO metadata（包含 OG 和 Twitter 标签）
+    const seoMetadata = generateSeoMetadata({
+      title: siteName,
+      description,
+      url: absoluteUrl,
+      locale: locale === 'ja' ? 'ja_JP' : 'zh_CN',
+    })
+
+    // 合并 metadata，确保 title 和 description 不被覆盖
+    return {
+      ...baseMetadata,
+      ...seoMetadata,
+      // 确保 title 模板保留
+      title: baseMetadata.title,
     }
   } catch (error) {
     console.error('Metadata error:', error)
+    const fallbackUrl = getAbsoluteUrl(`/${defaultLocale}`)
     return {
+      ...generateSeoMetadata({
+        title: '大成学院',
+        description: '日本人のための本格中国語教室',
+        url: fallbackUrl,
+      }),
       title: '大成学院',
-      description: '日本人のための本格中国語教室',
     }
   }
 }

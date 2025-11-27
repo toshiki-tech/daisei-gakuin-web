@@ -5,6 +5,40 @@ import Access from '@/components/sections/Access'
 import History from '@/components/sections/History'
 import Teachers from '@/components/sections/Teachers'
 import { defaultLocale } from '@/i18n/config'
+import { generateSeoMetadata, getAbsoluteUrl } from '@/lib/seo'
+
+export async function generateMetadata({ params }: { params?: { locale?: string } }) {
+  try {
+    const locale = (params?.locale as 'ja' | 'zh') ?? defaultLocale
+    const t = await getTranslations({ locale, namespace: 'about' })
+
+    const title = t('pageTitle') || '私たちについて'
+    const description = t('pageSubtitle') || '大成学院の歴史、教育理念、そして講師陣をご紹介します。'
+    const currentPath = `/${locale}/about`
+    const absoluteUrl = getAbsoluteUrl(currentPath)
+
+    return {
+      ...generateSeoMetadata({
+        title,
+        description,
+        url: absoluteUrl,
+        locale: locale === 'ja' ? 'ja_JP' : 'zh_CN',
+      }),
+      title,
+      description,
+    }
+  } catch (error) {
+    const fallbackUrl = getAbsoluteUrl(`/${defaultLocale}/about`)
+    return {
+      ...generateSeoMetadata({
+        title: '私たちについて',
+        description: '大成学院の歴史、教育理念、そして講師陣をご紹介します。',
+        url: fallbackUrl,
+      }),
+      title: '私たちについて',
+    }
+  }
+}
 
 export default async function AboutPage({ params }: { params?: { locale?: string } }) {
   const locale = (params?.locale as 'ja' | 'zh') ?? defaultLocale
