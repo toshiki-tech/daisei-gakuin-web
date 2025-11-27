@@ -19,7 +19,7 @@ const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''
 // 默认 OG 信息
 const defaultOgTitle = '大成学院'
 const defaultOgDescription = '日本人のための本格中国語教室'
-// OG 图片路径（1200x630 PNG）
+// OG 图片路径（1024x1024 PNG）
 const defaultOgImage = `${siteUrl}${basePath}/images/og/og.png`
 
 interface SeoOptions {
@@ -58,8 +58,8 @@ export function generateSeoMetadata(options: SeoOptions = {}): Metadata {
       images: [
         {
           url: image,
-          width: 1200,
-          height: 630,
+          width: 1024,
+          height: 1024,
           alt: title || defaultOgTitle,
         },
       ],
