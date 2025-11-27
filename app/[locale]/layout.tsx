@@ -75,8 +75,7 @@ export default async function LocaleLayout({
       error &&
       typeof error === 'object' &&
       'digest' in error &&
-      // @ts-expect-error: digest は Next.js が内部的に付与するプロパティ
-      error.digest === 'NEXT_NOT_FOUND'
+      (error as { digest?: string }).digest === 'NEXT_NOT_FOUND'
     ) {
       throw error
     }
