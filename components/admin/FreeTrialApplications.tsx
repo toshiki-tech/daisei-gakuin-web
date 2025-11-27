@@ -1,0 +1,354 @@
+'use client'
+
+import { useState, useEffect } from 'react'
+
+interface FreeTrialApplication {
+  id: string
+  name: string
+  email: string
+  phone: string
+  preferred_time_1: string | null
+  preferred_time_2: string | null
+  interested_courses: string[] | null
+  chinese_experience: boolean | null
+  learning_period: string | null
+  visited_china: boolean | null
+  china_visit_count: string | null
+  learning_purpose: string | null
+  privacy_agreed: boolean
+  status: string
+  locale: string | null
+  created_at: string
+  updated_at: string | null
+}
+
+export default function FreeTrialApplications() {
+  const [applications, setApplications] = useState<FreeTrialApplication[]>([])
+  const [loading, setLoading] = useState(true)
+  const [selectedApp, setSelectedApp] = useState<FreeTrialApplication | null>(null)
+  const [viewingApp, setViewingApp] = useState<FreeTrialApplication | null>(null)
+  const [replyEmail, setReplyEmail] = useState('')
+  const [replySubject, setReplySubject] = useState('')
+  const [replyMessage, setReplyMessage] = useState('')
+  const [updatingStatus, setUpdatingStatus] = useState(false)
+
+  useEffect(() => {
+    fetchApplications()
+  }, [])
+
+  const fetchApplications = async () => {
+    try {
+      const token = localStorage.getItem('admin_token')
+      if (!token) {
+        setLoading(false)
+        return
+      }
+
+      const response = await fetch('/api/admin/applications', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      })
+
+      if (!response.ok) {
+        throw new Error('获取数据失败')
+      }
+
+      const result = await response.json()
+      setApplications(result.data || [])
+    } catch (error) {
+      console.error('Error fetching applications:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const updateStatus = async (id: string, newStatus: string) => {
+    setUpdatingStatus(true)
+    try {
+      const token = localStorage.getItem('admin_token')
+      if (!token) {
+        alert('未授权')
+        return
+      }
+
+      const response = await fetch('/api/admin/applications', {
+        method: 'PATCH',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id, status: newStatus }),
+      })
+
+      if (!response.ok) {
+        const error = await response.json()
+        throw new Error(error.error || '更新失败')
+      }
+
+      await fetchApplications()
+    } catch (error: any) {
+      console.error('Error updating status:', error)
+      alert(error.message || '更新状态失败')
+    } finally {
+      setUpdatingStatus(false)
+    }
+  }
+
+  const handleReply = (app: FreeTrialApplication) => {
+    setSelectedApp(app)
+    setReplyEmail(app.email)
+    setReplySubject(`無料体験レッスンについて - ${app.name}様`)
+    setReplyMessage(`お問い合わせありがとうございます。\n\n${app.name}様の無料体験レッスンについて、以下の内容で承りました。\n\n詳細については、改めてご連絡いたします。`)
+  }
+
+  const sendReply = () => {
+    // 这里可以集成邮件服务（如 SendGrid, Resend 等）
+    // 或者打开邮件客户端
+    const mailtoLink = `mailto:${replyEmail}?subject=${encodeURIComponent(replySubject)}&body=${encodeURIComponent(replyMessage)}`
+    window.location.href = mailtoLink
+    
+    // 标记为已联系
+    if (selectedApp) {
+      updateStatus(selectedApp.id, 'contacted')
+    }
+    setSelectedApp(null)
+  }
+
+  const getStatusBadge = (status: string) => {
+    const statusMap: Record<string, { label: string; color: string }> = {
+      pending: { label: '待处理', color: 'bg-yellow-100 text-yellow-800' },
+      contacted: { label: '已联系', color: 'bg-blue-100 text-blue-800' },
+      resolved: { label: '已解决', color: 'bg-green-100 text-green-800' },
+      cancelled: { label: '已取消', color: 'bg-gray-100 text-gray-800' },
+    }
+    const statusInfo = statusMap[status] || { label: status, color: 'bg-gray-100 text-gray-800' }
+    return (
+      <span className={`px-2 py-1 rounded-full text-xs font-semibold ${statusInfo.color}`}>
+        {statusInfo.label}
+      </span>
+    )
+  }
+
+  if (loading) {
+    return <div className="text-center py-12 text-ink/60">加载中...</div>
+  }
+
+  return (
+    <div>
+      <div className="mb-6 flex items-center justify-between">
+        <h2 className="text-2xl font-bold text-ink">免费体验申请 ({applications.length})</h2>
+      </div>
+
+      <div className="bg-white rounded-lg shadow-sm border border-ink/10 overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead className="bg-ink/5">
+              <tr>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-ink">姓名</th>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-ink">邮箱</th>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-ink">电话</th>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-ink">感兴趣课程</th>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-ink">状态</th>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-ink">提交时间</th>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-ink">操作</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-ink/10">
+              {applications.map((app) => (
+                <tr key={app.id} className="hover:bg-ink/2">
+                  <td className="px-4 py-3 text-sm text-ink">{app.name}</td>
+                  <td className="px-4 py-3 text-sm text-ink/70">{app.email}</td>
+                  <td className="px-4 py-3 text-sm text-ink/70">{app.phone}</td>
+                  <td className="px-4 py-3 text-sm text-ink/70">
+                    {app.interested_courses && app.interested_courses.length > 0
+                      ? app.interested_courses.join(', ')
+                      : '-'}
+                  </td>
+                  <td className="px-4 py-3">{getStatusBadge(app.status)}</td>
+                  <td className="px-4 py-3 text-sm text-ink/60">
+                    {new Date(app.created_at).toLocaleString('zh-CN')}
+                  </td>
+                  <td className="px-4 py-3">
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => setViewingApp(app)}
+                        className="px-3 py-1 text-xs bg-ink/10 text-ink rounded hover:bg-ink/20 transition-colors"
+                      >
+                        详情
+                      </button>
+                      <button
+                        onClick={() => handleReply(app)}
+                        className="px-3 py-1 text-xs bg-primary text-white rounded hover:bg-primary-dark transition-colors"
+                      >
+                        回复
+                      </button>
+                      <select
+                        value={app.status}
+                        onChange={(e) => updateStatus(app.id, e.target.value)}
+                        disabled={updatingStatus}
+                        className="px-2 py-1 text-xs border border-ink/20 rounded focus:outline-none focus:ring-2 focus:ring-primary"
+                      >
+                        <option value="pending">待处理</option>
+                        <option value="contacted">已联系</option>
+                        <option value="resolved">已解决</option>
+                        <option value="cancelled">已取消</option>
+                      </select>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* Detail Modal */}
+      {viewingApp && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="sticky top-0 bg-white border-b border-ink/10 px-6 py-4 flex items-center justify-between">
+              <h3 className="text-xl font-bold text-ink">申请详情</h3>
+              <button
+                onClick={() => setViewingApp(null)}
+                className="text-ink/60 hover:text-ink transition-colors"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            <div className="p-6 space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-semibold text-ink/60 mb-1">姓名</label>
+                  <p className="text-ink">{viewingApp.name}</p>
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-ink/60 mb-1">邮箱</label>
+                  <p className="text-ink">{viewingApp.email}</p>
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-ink/60 mb-1">电话</label>
+                  <p className="text-ink">{viewingApp.phone}</p>
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-ink/60 mb-1">状态</label>
+                  <div>{getStatusBadge(viewingApp.status)}</div>
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-ink/60 mb-1">首选时间1</label>
+                  <p className="text-ink">{viewingApp.preferred_time_1 || '-'}</p>
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-ink/60 mb-1">首选时间2</label>
+                  <p className="text-ink">{viewingApp.preferred_time_2 || '-'}</p>
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-ink/60 mb-1">感兴趣课程</label>
+                  <p className="text-ink">
+                    {viewingApp.interested_courses && viewingApp.interested_courses.length > 0
+                      ? viewingApp.interested_courses.join(', ')
+                      : '-'}
+                  </p>
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-ink/60 mb-1">有中文经验</label>
+                  <p className="text-ink">{viewingApp.chinese_experience ? '是' : '否'}</p>
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-ink/60 mb-1">学习时长</label>
+                  <p className="text-ink">{viewingApp.learning_period || '-'}</p>
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-ink/60 mb-1">访问过中国</label>
+                  <p className="text-ink">{viewingApp.visited_china ? '是' : '否'}</p>
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-ink/60 mb-1">访问次数</label>
+                  <p className="text-ink">{viewingApp.china_visit_count || '-'}</p>
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-ink/60 mb-1">学习目的</label>
+                  <p className="text-ink">{viewingApp.learning_purpose || '-'}</p>
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-ink/60 mb-1">提交时间</label>
+                  <p className="text-ink">{new Date(viewingApp.created_at).toLocaleString('zh-CN')}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Reply Modal */}
+      {selectedApp && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="sticky top-0 bg-white border-b border-ink/10 px-6 py-4 flex items-center justify-between">
+              <h3 className="text-xl font-bold text-ink">回复邮件</h3>
+              <button
+                onClick={() => setSelectedApp(null)}
+                className="text-ink/60 hover:text-ink transition-colors"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            <div className="p-6 space-y-4">
+              <div>
+                <label className="block text-sm font-semibold text-ink mb-2">收件人</label>
+                <input
+                  type="email"
+                  value={replyEmail}
+                  onChange={(e) => setReplyEmail(e.target.value)}
+                  className="w-full px-4 py-2 border border-ink/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-ink mb-2">主题</label>
+                <input
+                  type="text"
+                  value={replySubject}
+                  onChange={(e) => setReplySubject(e.target.value)}
+                  className="w-full px-4 py-2 border border-ink/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-ink mb-2">内容</label>
+                <textarea
+                  value={replyMessage}
+                  onChange={(e) => setReplyMessage(e.target.value)}
+                  rows={10}
+                  className="w-full px-4 py-2 border border-ink/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary resize-none"
+                />
+              </div>
+
+              <div className="flex gap-4 pt-4">
+                <button
+                  onClick={() => setSelectedApp(null)}
+                  className="flex-1 px-4 py-2 border-2 border-ink/20 text-ink rounded-lg font-semibold hover:bg-ink/5 transition-colors"
+                >
+                  取消
+                </button>
+                <button
+                  onClick={sendReply}
+                  className="flex-1 px-4 py-2 bg-primary text-white rounded-lg font-semibold hover:bg-primary-dark transition-colors"
+                >
+                  发送邮件
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+

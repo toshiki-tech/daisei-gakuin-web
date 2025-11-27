@@ -2,13 +2,13 @@
 
 import { useState } from 'react'
 import { useTranslations, useLocale } from 'next-intl'
-import Link from 'next/link'
 import FreeTrialForm from './FreeTrialForm'
+import ContactForm from './ContactForm'
 
 export default function CTA() {
   const t = useTranslations('cta')
   const locale = useLocale()
-  const [showForm, setShowForm] = useState(false)
+  const [formType, setFormType] = useState<'none' | 'trial' | 'contact'>('none')
 
   return (
     <section
@@ -17,7 +17,7 @@ export default function CTA() {
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
-          {!showForm ? (
+          {formType === 'none' ? (
             <div className="bg-white rounded-2xl p-8 md:p-12 shadow-2xl">
               <div className="text-center mb-8">
                 <div className="inline-block bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-semibold mb-4">
@@ -36,17 +36,17 @@ export default function CTA() {
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                 <button
-                  onClick={() => setShowForm(true)}
+                  onClick={() => setFormType('trial')}
                   className="w-full sm:w-auto inline-flex items-center justify-center px-10 py-5 bg-primary text-white rounded-lg font-bold text-xl hover:bg-primary-dark transition-colors shadow-lg hover:shadow-xl"
                 >
                   {t('buttonPrimary')}
                 </button>
-                <Link
-                  href={`/${locale}#contact`}
+                <button
+                  onClick={() => setFormType('contact')}
                   className="w-full sm:w-auto inline-flex items-center justify-center px-10 py-5 border-2 border-primary text-primary rounded-lg font-semibold text-lg hover:bg-primary/5 transition-colors"
                 >
                   {t('buttonSecondary')}
-                </Link>
+                </button>
               </div>
 
               <div className="mt-8 pt-8 border-t border-ink/10">
@@ -57,8 +57,10 @@ export default function CTA() {
                 </p>
               </div>
             </div>
+          ) : formType === 'trial' ? (
+            <FreeTrialForm onBack={() => setFormType('none')} />
           ) : (
-            <FreeTrialForm />
+            <ContactForm onBack={() => setFormType('none')} />
           )}
         </div>
       </div>

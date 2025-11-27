@@ -58,7 +58,7 @@ export default async function CoursesIndexPage({ params }: { params?: { locale?:
                   </p>
                 </div>
 
-                <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-10">
                   {mainBusiness.subcategories.map((subcategory) => (
                     <div
                       key={subcategory.id}
@@ -84,6 +84,31 @@ export default async function CoursesIndexPage({ params }: { params?: { locale?:
                       </div>
                     </div>
                   ))}
+                </div>
+
+                {/* 了解更多链接 */}
+                <div className="text-center">
+                  <Link
+                    href={`/${locale}/courses/${mainBusiness.id}`}
+                    className="group inline-flex items-center justify-center text-primary font-semibold hover:text-primary-dark transition-colors"
+                  >
+                    <span className="text-base">
+                      {locale === 'ja' ? '詳しく見る' : '了解更多'}
+                    </span>
+                    <svg
+                      className="w-5 h-5 ml-2 group-hover:translate-x-2 transition-transform"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                  </Link>
                 </div>
               </div>
             )}

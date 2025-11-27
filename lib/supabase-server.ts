@@ -1,7 +1,8 @@
 import { createClient } from '@supabase/supabase-js'
 
 // Supabase 服务端配置（用于 API routes）
-const supabaseUrl = 'https://lumlfzmdrheesrzsuyfy.supabase.co'
+// 支持 SUPABASE_URL 或 NEXT_PUBLIC_SUPABASE_URL
+const supabaseUrl = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://lumlfzmdrheesrzsuyfy.supabase.co'
 
 // 优先使用环境变量中的 service_role key
 // 如果没有配置，则使用 anon key（需要确保 RLS 策略允许插入）

@@ -50,9 +50,8 @@ export default async function LocaleLayout({
   try {
     const locale = (params?.locale as 'ja' | 'zh') ?? defaultLocale
 
-    if (!locale || !locales.includes(locale as any)) {
-      notFound()
-    }
+    // ミドルウェア側で locale を検証しているため、ここでは
+    // 不正な locale の場合でも 404 シグナルをのみ込まないようにする
 
     // Safely get messages with error handling
     let messages
@@ -71,6 +70,17 @@ export default async function LocaleLayout({
       </NextIntlClientProvider>
     )
   } catch (error) {
+    // Next.js の 404 シグナル (NEXT_NOT_FOUND) はキャッチしてはいけないので即座に再スローする
+    if (
+      error &&
+      typeof error === 'object' &&
+      'digest' in error &&
+      // @ts-expect-error: digest は Next.js が内部的に付与するプロパティ
+      error.digest === 'NEXT_NOT_FOUND'
+    ) {
+      throw error
+    }
+
     console.error('Layout error:', error)
     // Fallback to default locale
     const fallbackLocale = defaultLocale

@@ -96,6 +96,11 @@
       }
     }
   },
+  "about": {
+    "pageTitle": "关于我们",
+    "pageSubtitle": "了解大成学院的历史、师资力量和教室信息。",
+    "teachersTitle": "教师介绍"
+  },
   "history": {
     "title": "学院历程",
     "present": "至今",
@@ -167,6 +172,70 @@
         "name": "山田 健一",
         "course": "中级中文",
         "comment": "文武兼修的方法很棒。语法与实践的平衡很好，能够说自然的中文了。"
+      }
+    }
+  },
+  "teachers": {
+    "title": "教师介绍",
+    "subtitle": "经验丰富的专业教师，会根据每位学员的目标提供细致的学习支持。",
+    "moreLink": "查看更多教师介绍",
+    "categories": {
+      "chinese": {
+        "title": "中文课程教师",
+        "items": [
+          {
+            "name": "张 老师",
+            "role": "主任讲师",
+            "bio": "出生于北京，旅居日本20年以上。熟悉日本学习者的发音与语法难点，专注于中文发音矫正与会话训练。从入门到高级均有丰富教学经验，已帮助众多学员通过HSK考试并在实际工作中使用中文。",
+            "image": "teacher-chinese-1.jpg"
+          },
+          {
+            "name": "李 老师",
+            "role": "中文讲师",
+            "bio": "来自上海，专长商务中文与HSK考试辅导，注重实用会话能力的提升。",
+            "image": "teacher-chinese-2.jpg"
+          },
+          {
+            "name": "王 老师",
+            "role": "中文讲师",
+            "bio": "负责儿童中文课程，通过歌曲、游戏、绘本等方式，营造轻松愉快的学习氛围。",
+            "image": "teacher-chinese-3.jpg"
+          }
+        ]
+      },
+      "japanese": {
+        "title": "日语课程教师",
+        "items": [
+          {
+            "name": "佐藤 老师",
+            "role": "日语讲师",
+            "bio": "拥有日语教育相关资格，既教授母语为中文的学习者，也负责多国籍学员的日语课程。除了语法与会话，也重视对日本文化、礼仪和职场表达的讲解。",
+            "image": "teacher-japanese-1.jpg"
+          },
+          {
+            "name": "田中 老师",
+            "role": "日语讲师",
+            "bio": "专长JLPT考试辅导与商务日语，重点教授实际工作中常用的日语表达。",
+            "image": "teacher-japanese-2.jpg"
+          }
+        ]
+      },
+      "english": {
+        "title": "英语课程教师",
+        "items": [
+          {
+            "name": "John 老师",
+            "role": "英语讲师",
+            "bio": "英语母语讲师，课程重点放在口语与听力训练。通过情景会话、角色扮演等形式，帮助学员在日常生活与商务场景中自然使用英语。",
+            "image": "teacher-english-1.jpg"
+          },
+          {
+            "name": "Mary 老师",
+            "role": "英语讲师",
+            "bio": "专长TOEIC与英检考试辅导，致力于在考试准备与实际英语能力提升之间取得平衡。",
+            "image": "teacher-english-2.jpg"
+          }
+        ]
       }
     }
   },
@@ -253,6 +322,36 @@
     "buttonSecondary": "资料请求・咨询",
     "note": "※ 免费体验课程，我们准备了教室・在线两种方式。",
     "noteSub": "※ 部分课程可能只有免费在线体验或咨询。"
+  },
+  "contactModal": {
+    "title": "资料请求・咨询",
+    "subtitle": "如有任何问题或需要资料，欢迎随时联系我们。",
+    "back": "返回",
+    "fields": {
+      "name": "姓名",
+      "nameRequired": "请输入姓名",
+      "namePlaceholder": "张三",
+      "email": "邮箱地址",
+      "emailRequired": "请输入邮箱地址",
+      "emailInvalid": "请输入有效的邮箱地址",
+      "emailPlaceholder": "example@email.com",
+      "phone": "电话号码",
+      "phoneRequired": "请输入电话号码",
+      "phonePlaceholder": "03-1234-5678",
+      "message": "咨询内容",
+      "messageRequired": "请输入咨询内容",
+      "messagePlaceholder": "请填写您的问题或需求",
+      "privacyAgreed": "同意个人信息处理",
+      "privacyAgreedRequired": "请同意个人信息处理"
+    },
+    "submit": "提交",
+    "submitting": "提交中...",
+    "cancel": "取消",
+    "successTitle": "感谢您的咨询",
+    "successMessage": "您的咨询已受理。我们会联系您。",
+    "errorTitle": "发生错误",
+    "errorMessage": "提交失败。请稍后再试。",
+    "retry": "重试"
   },
   "freeTrialForm": {
     "title": "免费体验课程",

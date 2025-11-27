@@ -44,12 +44,12 @@ export default function Hero() {
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-ink leading-tight">
               {t('title')}
             </h1>
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-medium text-ink/80 leading-relaxed">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-medium text-ink/80 leading-relaxed whitespace-pre-line">
               {t('subtitle')}
             </h2>
 
             {/* Description */}
-            <p className="text-lg md:text-xl text-ink/70 leading-relaxed max-w-xl">
+            <p className="text-lg md:text-xl text-ink/70 leading-relaxed max-w-xl whitespace-pre-line">
               {t('description')}
               <br />
               <span className="text-base text-ink/60">

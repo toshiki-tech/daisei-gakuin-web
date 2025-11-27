@@ -54,8 +54,12 @@ export default function Features() {
                 <div className="absolute inset-0 bg-gradient-to-t from-ink/40 to-transparent" />
                 <div className="absolute top-4 right-4 text-4xl">{feature.icon}</div>
               </div>
-              <div className="p-6">
-                <h3 className="text-xl font-semibold text-ink mb-4 text-center">
+              <div className="px-4 py-6">
+                <h3
+                  className={`text-xl font-semibold text-ink mb-4 text-center ${
+                    feature.key === 'method' ? 'whitespace-nowrap' : ''
+                  }`}
+                >
                   {t(`items.${feature.key}.title`)}
                 </h3>
                 <p className="text-base text-ink/70 leading-relaxed text-center">

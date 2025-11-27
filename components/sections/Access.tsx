@@ -11,21 +11,20 @@ export default function Access() {
         <h2 id="access" className="text-3xl md:text-4xl font-bold text-center text-ink mb-12">
           {t('title')}
         </h2>
-        <div className="grid lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+        <div className="grid lg:grid-cols-2 gap-8 max-w-6xl mx-auto lg:items-stretch">
           {/* Map */}
-          <div className="bg-background rounded-xl overflow-hidden shadow-md">
-            <div className="h-96 w-full">
-              <iframe
-                src="https://www.google.com/maps?q=中野区中央+3-34-3+メイヒル新中野+201&output=embed"
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title={t('access')}
-              />
-            </div>
+          <div className="bg-background rounded-xl overflow-hidden shadow-md h-[500px] lg:h-auto">
+            <iframe
+              src="https://www.google.com/maps?q=中野区中央+3-34-3+メイヒル新中野+201&output=embed&zoom=17&maptype=roadmap&markers=color:red%7Csize:large%7C中野区中央+3-34-3+メイヒル新中野+201"
+              width="100%"
+              height="100%"
+              className="w-full h-full"
+              style={{ border: 0, display: 'block' }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title={t('access')}
+            />
           </div>
 
           {/* Information */}

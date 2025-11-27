@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { useTranslations, useLocale } from 'next-intl'
-import { supabase } from '@/lib/supabase'
 
 interface FormData {
   name: string
@@ -19,7 +18,11 @@ interface FormData {
   privacy_agreed: boolean
 }
 
-export default function FreeTrialForm() {
+interface FreeTrialFormProps {
+  onBack?: () => void
+}
+
+export default function FreeTrialForm({ onBack }: FreeTrialFormProps = {}) {
   const t = useTranslations('freeTrialForm')
   const locale = useLocale()
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -106,7 +109,7 @@ export default function FreeTrialForm() {
     setSubmitStatus('idle')
 
     try {
-      // 准备提交数据
+      // 准备提交数据（结构与 /api/free-trial 期望的 body 对齐）
       const payload = {
         name: formData.name.trim(),
         email: formData.email.trim(),
@@ -121,22 +124,34 @@ export default function FreeTrialForm() {
         learning_purpose: formData.learning_purpose || null,
         privacy_agreed: formData.privacy_agreed,
         status: 'pending',
+        locale: locale,
       }
 
-      console.log('Submitting payload to Supabase:', payload)
+      console.log('Submitting payload to /api/free-trial:', payload)
 
-      const { data, error } = await supabase
-        .from('dcxy_free_trial_applications')
-        .insert([payload])
+      const response = await fetch('/api/free-trial', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      })
 
-      if (error) {
-        console.error('Supabase insert error:', error)
+      if (!response.ok) {
+        let errorBody: any = null
+        try {
+          errorBody = await response.json()
+        } catch {
+          // ignore JSON parse error
+        }
+        console.error('API /api/free-trial error:', response.status, errorBody)
         setSubmitStatus('error')
         setIsSubmitting(false)
         return
       }
 
-      console.log('Supabase insert result:', data)
+      const result = await response.json()
+      console.log('API /api/free-trial result:', result)
 
       // 提交成功
       setSubmitStatus('success')
@@ -217,12 +232,22 @@ export default function FreeTrialForm() {
           </div>
           <h3 className="text-2xl font-bold text-ink mb-4">{t('successTitle')}</h3>
           <p className="text-lg text-ink/70 mb-6">{t('successMessage')}</p>
-          <button
-            onClick={() => setSubmitStatus('idle')}
-            className="px-6 py-3 bg-primary text-white rounded-lg font-semibold hover:bg-primary-dark transition-colors"
-          >
-            {locale === 'ja' ? '新しい申請を送信' : '提交新申请'}
-          </button>
+          <div className="flex gap-4 justify-center">
+            {onBack && (
+              <button
+                onClick={onBack}
+                className="px-6 py-3 border-2 border-ink/20 text-ink rounded-lg font-semibold hover:bg-ink/5 transition-colors"
+              >
+                {locale === 'ja' ? '戻る' : '返回'}
+              </button>
+            )}
+            <button
+              onClick={() => setSubmitStatus('idle')}
+              className="px-6 py-3 bg-primary text-white rounded-lg font-semibold hover:bg-primary-dark transition-colors"
+            >
+              {locale === 'ja' ? '新しい申請を送信' : '提交新申请'}
+            </button>
+          </div>
         </div>
       </div>
     )
@@ -230,6 +255,17 @@ export default function FreeTrialForm() {
 
   return (
     <div className="bg-white rounded-2xl p-6 md:p-10 shadow-2xl">
+      {onBack && (
+        <button
+          onClick={onBack}
+          className="flex items-center text-ink/60 hover:text-ink transition-colors mb-4"
+        >
+          <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+          {locale === 'ja' ? '戻る' : '返回'}
+        </button>
+      )}
       <div className="mb-6">
         <h2 className="text-2xl md:text-3xl font-bold text-ink mb-3">{t('title')}</h2>
         <p className="text-base md:text-lg text-ink/70 leading-relaxed">{t('subtitle')}</p>

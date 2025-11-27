@@ -16,9 +16,9 @@ export async function POST(request: NextRequest) {
   }
 
   // 验证必填字段
-  const { name, email, phone, privacy_agreed } = body
+  const { name, email, phone, message, privacy_agreed } = body
 
-  if (!name || !email || !phone || !privacy_agreed) {
+  if (!name || !email || !phone || !message || !privacy_agreed) {
     return new NextResponse(
       JSON.stringify({ error: 'Missing required fields' }),
       { 
@@ -45,16 +45,7 @@ export async function POST(request: NextRequest) {
     name: name.trim(),
     email: email.trim(),
     phone: phone.trim(),
-    preferred_time_1: body.preferred_time_1 || null,
-    preferred_time_2: body.preferred_time_2 || null,
-    interested_courses: body.interested_courses && Array.isArray(body.interested_courses) && body.interested_courses.length > 0 
-      ? body.interested_courses 
-      : null,
-    chinese_experience: body.chinese_experience ?? null,
-    learning_period: body.learning_period || null,
-    visited_china: body.visited_china ?? null,
-    china_visit_count: body.china_visit_count || null,
-    learning_purpose: body.learning_purpose || null,
+    message: message.trim(),
     privacy_agreed: privacy_agreed,
     status: 'pending',
     locale: body.locale || null,
@@ -62,7 +53,7 @@ export async function POST(request: NextRequest) {
 
   // 插入数据到 Supabase
   const { data, error } = await supabaseServer
-    .from('dcxy_free_trial_applications')
+    .from('dcxy_contact_inquiries')
     .insert([insertData])
     .select()
 
@@ -71,7 +62,7 @@ export async function POST(request: NextRequest) {
     console.error('Insert data:', JSON.stringify(insertData, null, 2))
     return new NextResponse(
       JSON.stringify({ 
-        error: 'Failed to submit application', 
+        error: 'Failed to submit inquiry', 
         details: error.message,
         code: error.code,
         hint: error.hint
