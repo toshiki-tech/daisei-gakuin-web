@@ -20,7 +20,7 @@ export async function generateMetadata({
     const t = await getTranslations({ locale, namespace: 'common' })
 
     const siteName = t('siteName') || '大成学院'
-    const description = t('tagline') || '日本人のための本格中国語教室'
+    const description = t('tagline') || '本格中国語学院'
     const currentPath = `/${locale}`
     const absoluteUrl = getAbsoluteUrl(currentPath)
 
@@ -61,7 +61,7 @@ export async function generateMetadata({
     return {
       ...generateSeoMetadata({
         title: '大成学院',
-        description: '日本人のための本格中国語教室',
+        description: '本格中国語学院',
         url: fallbackUrl,
       }),
       title: '大成学院',

@@ -18,7 +18,7 @@ const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''
 
 // 默认 OG 信息
 const defaultOgTitle = '大成学院'
-const defaultOgDescription = '日本人のための本格中国語教室'
+const defaultOgDescription = '本格中国語学院'
 // OG 图片路径（1024x1024 PNG）
 const defaultOgImage = `${siteUrl}${basePath}/images/og/og.png`
 

@@ -47,25 +47,25 @@ export default function Logo({ size = 64, className = '', invert = false, varian
 // Header Logo with Image + Text
 function HeaderLogo({ className = '' }: { className?: string }) {
   return (
-    <div className={`flex items-center gap-2 ${className}`}>
+    <div className={`flex items-center gap-1.5 lg:gap-2 ${className}`}>
       {/* Logo Image */}
-      <div className="relative flex-shrink-0" style={{ width: 64, height: 64 }}>
+      <div className="relative flex-shrink-0 w-12 h-12 lg:w-16 lg:h-16">
         <Image
           src={`${basePath}/images/logo/daisei-logo.png`}
           alt="大成学院"
           width={64}
           height={64}
-          className="object-contain"
+          className="object-contain w-full h-full"
           priority
         />
       </div>
       
       {/* Text content */}
       <div className="flex flex-col items-center justify-center">
-        <span className="text-2xl font-bold text-ink leading-[1.1] tracking-tight text-center" style={{ fontFamily: 'serif, "Noto Serif SC", "SimSun", serif', letterSpacing: '-0.02em' }}>
+        <span className="text-xl lg:text-2xl font-bold text-ink leading-[1.1] tracking-tight text-center" style={{ fontFamily: 'serif, "Noto Serif SC", "SimSun", serif', letterSpacing: '-0.02em' }}>
           大成学院
         </span>
-        <span className="text-[10px] text-ink/50 font-light leading-tight mt-1 text-center" style={{ letterSpacing: '0.2em', fontVariant: 'small-caps' }}>
+        <span className="text-[9px] lg:text-[10px] text-ink/50 font-light leading-tight mt-0.5 lg:mt-1 text-center" style={{ letterSpacing: '0.2em', fontVariant: 'small-caps' }}>
            WWW.DCXY.JP
         </span>
       </div>

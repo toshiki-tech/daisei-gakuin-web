@@ -66,7 +66,7 @@ export const courseStructure: CourseCategory[] = [
           {
             id: 'school',
             name: {
-              ja: 'スクール通い',
+              ja: '対面レッスン',
               zh: '通学课程',
             },
             description: {
@@ -77,7 +77,7 @@ export const courseStructure: CourseCategory[] = [
           {
             id: 'online',
             name: {
-              ja: 'オンライン',
+              ja: 'オンラインレッスン',
               zh: '在线课程',
             },
             description: {
@@ -112,7 +112,7 @@ export const courseStructure: CourseCategory[] = [
           {
             id: 'school',
             name: {
-              ja: 'スクール通い',
+              ja: '対面レッスン',
               zh: '通学课程',
             },
             description: {
@@ -123,7 +123,7 @@ export const courseStructure: CourseCategory[] = [
           {
             id: 'online',
             name: {
-              ja: 'オンライン',
+              ja: 'オンラインレッスン',
               zh: '在线课程',
             },
             description: {
@@ -207,7 +207,7 @@ export const courseStructure: CourseCategory[] = [
       {
         id: 'school',
         name: {
-          ja: 'スクール通い',
+          ja: '対面レッスン',
           zh: '通学课程',
         },
         description: {
@@ -234,7 +234,7 @@ export const courseStructure: CourseCategory[] = [
       {
         id: 'online',
         name: {
-          ja: 'オンライン',
+          ja: 'オンラインレッスン',
           zh: '在线课程',
         },
         description: {
@@ -268,7 +268,7 @@ export const courseStructure: CourseCategory[] = [
       {
         id: 'school',
         name: {
-          ja: 'スクール通い',
+          ja: '対面レッスン',
           zh: '通学课程',
         },
         description: {
@@ -295,7 +295,7 @@ export const courseStructure: CourseCategory[] = [
       {
         id: 'online',
         name: {
-          ja: 'オンライン',
+          ja: 'オンラインレッスン',
           zh: '在线课程',
         },
         description: {

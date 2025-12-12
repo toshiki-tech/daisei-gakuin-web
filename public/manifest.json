@@ -1,7 +1,7 @@
 {
   "name": "大成学院",
   "short_name": "大成学院",
-  "description": "日本人のための本格中国語教室",
+  "description": "本格中国語学院",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#F7F3EE",
@@ -30,4 +30,7 @@
     }
   ]
 }
+
+
+
 

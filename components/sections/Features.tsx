@@ -37,32 +37,39 @@ export default function Features() {
         <h2 className="text-3xl md:text-4xl font-bold text-center text-ink mb-12">
           {t('title')}
         </h2>
-        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto">
           {features.map((feature, index) => (
             <div
               key={index}
               className="bg-background rounded-xl overflow-hidden hover:shadow-lg transition-shadow"
             >
-              <div className="relative h-48">
+              <div className="relative h-48 md:h-52 lg:h-48">
                 <Image
                   src={feature.image}
                   alt={t(`items.${feature.key}.title`)}
                   fill
                   className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 33vw"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-ink/40 to-transparent" />
                 <div className="absolute top-4 right-4 text-4xl">{feature.icon}</div>
               </div>
-              <div className="px-4 py-6">
+              <div className={`px-5 md:px-6 py-5 md:py-6 ${feature.key === 'method' ? 'min-h-[140px] md:min-h-[150px]' : ''}`}>
                 <h3
-                  className={`text-xl font-semibold text-ink mb-4 text-center ${
-                    feature.key === 'method' ? 'whitespace-nowrap' : ''
+                  className={`font-semibold text-ink mb-3 md:mb-4 text-center leading-tight ${
+                    feature.key === 'method' 
+                      ? 'text-sm md:text-base lg:text-lg' 
+                      : 'text-base md:text-lg lg:text-xl'
                   }`}
+                  style={feature.key === 'method' ? { 
+                    wordBreak: 'keep-all', 
+                    overflowWrap: 'break-word',
+                    lineHeight: '1.4'
+                  } : {}}
                 >
                   {t(`items.${feature.key}.title`)}
                 </h3>
-                <p className="text-base text-ink/70 leading-relaxed text-center">
+                <p className="text-sm md:text-base text-ink/70 leading-relaxed text-left">
                   {t(`items.${feature.key}.description`)}
                 </p>
               </div>

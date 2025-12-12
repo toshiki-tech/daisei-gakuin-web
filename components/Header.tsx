@@ -16,49 +16,51 @@ export default function Header() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link href={`/${locale}`} className="flex items-center">
+          <Link href={`/${locale}`} className="flex items-center flex-shrink-0">
             <Logo variant="header" />
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-6">
+          <nav className="hidden md:flex items-center gap-3 lg:gap-4 flex-1 justify-end min-w-0">
             <Link
               href={`/${locale}`}
-              className="text-base font-medium text-ink hover:text-primary transition-colors"
+              className="text-sm lg:text-base font-medium text-ink hover:text-primary transition-colors whitespace-nowrap flex-shrink-0"
             >
               {t('home')}
             </Link>
             <Link
               href={`/${locale}/news`}
-              className="text-base font-medium text-ink hover:text-primary transition-colors"
+              className="text-sm lg:text-base font-medium text-ink hover:text-primary transition-colors whitespace-nowrap flex-shrink-0"
             >
               {t('news')}
             </Link>
             <Link
               href={`/${locale}/courses/index`}
-              className="text-base font-medium text-ink hover:text-primary transition-colors"
+              className="text-sm lg:text-base font-medium text-ink hover:text-primary transition-colors whitespace-nowrap flex-shrink-0"
             >
               {t('courses')}
             </Link>
             <Link
               href={`/${locale}/method`}
-              className="text-base font-medium text-ink hover:text-primary transition-colors"
+              className="text-sm lg:text-base font-medium text-ink hover:text-primary transition-colors whitespace-nowrap flex-shrink-0"
             >
               {t('method')}
             </Link>
             <Link
               href={`/${locale}/about`}
-              className="text-base font-medium text-ink hover:text-primary transition-colors"
+              className="text-sm lg:text-base font-medium text-ink hover:text-primary transition-colors whitespace-nowrap flex-shrink-0"
             >
               {t('about')}
             </Link>
             <Link
               href={`/${locale}#contact`}
-              className="px-6 py-2 bg-primary text-white rounded-lg font-semibold hover:bg-primary-dark transition-colors"
+              className="px-3 lg:px-6 py-2 bg-primary text-white rounded-lg font-semibold hover:bg-primary-dark transition-colors whitespace-nowrap flex-shrink-0 text-sm lg:text-base"
             >
               {t('freeTrial')}
             </Link>
-            <LanguageSwitcher />
+            <div className="flex-shrink-0">
+              <LanguageSwitcher />
+            </div>
           </nav>
 
           {/* Mobile Menu Button */}
