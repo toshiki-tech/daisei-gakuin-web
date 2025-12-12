@@ -4,10 +4,10 @@ import { useState, useEffect, useRef } from 'react'
 import { useLocale } from 'next-intl'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
-import { locales, localeNames } from '@/i18n/config'
+import { locales, localeNames, type Locale } from '@/i18n/config'
 
 export default function LanguageSwitcher() {
-  const locale = useLocale()
+  const locale = useLocale() as Locale
   const pathname = usePathname()
   const [isOpen, setIsOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
