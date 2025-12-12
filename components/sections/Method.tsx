@@ -12,20 +12,20 @@ export default function Method() {
   const pointKeys = ['literature', 'martial', 'emotion', 'output', 'timeline']
 
   return (
-    <section className="py-20 bg-white">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-12 items-start max-w-6xl mx-auto">
+    <section className="py-20 bg-white overflow-hidden">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-full">
+        <div className="grid lg:grid-cols-2 gap-6 md:gap-8 lg:gap-12 items-start max-w-6xl mx-auto w-full">
           {/* Left Content */}
-          <div className="flex flex-col">
-            <h2 id="method" className="text-3xl md:text-4xl font-bold text-ink mb-6 whitespace-pre-line leading-tight">
+          <div className="flex flex-col min-w-0 w-full">
+            <h2 id="method" className="text-3xl md:text-4xl font-bold text-ink mb-6 whitespace-pre-line leading-tight break-words">
               {t('title')}
             </h2>
-            <p className="text-lg text-ink/70 leading-relaxed mb-6">
+            <p className="text-lg text-ink/70 leading-relaxed mb-6 break-words">
               {t('overview')}
             </p>
-            <ul className="space-y-5 flex-1">
+            <ul className="space-y-5 flex-1 min-w-0">
               {pointKeys.map((key, index) => (
-                <li key={index} className="flex items-start gap-4">
+                <li key={index} className="flex items-start gap-4 min-w-0">
                   <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary flex items-center justify-center mt-0.5">
                     <svg
                       className="w-5 h-5 text-white"
@@ -41,11 +41,11 @@ export default function Method() {
                       />
                     </svg>
                   </div>
-                  <div className="flex-1">
-                    <p className="text-lg text-ink/80 leading-normal font-medium">
+                  <div className="flex-1 min-w-0">
+                    <p className="text-lg text-ink/80 leading-normal font-medium break-words">
                       {t(`points.${key}`)}
                     </p>
-                    <p className="text-base text-ink/60 leading-normal mt-1.5">
+                    <p className="text-base text-ink/60 leading-normal mt-1.5 break-words">
                       {t(`points.${key}Description`)}
                     </p>
                   </div>
@@ -55,8 +55,8 @@ export default function Method() {
           </div>
 
           {/* Right Image with Description */}
-          <div className="flex flex-col pt-20 lg:pt-28">
-            <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white mb-5 w-full" style={{ minHeight: '600px', aspectRatio: '1280/1378' }}>
+          <div className="flex flex-col pt-20 lg:pt-28 min-w-0 w-full">
+            <div className="relative rounded-2xl overflow-hidden shadow-2xl border-2 md:border-4 border-white mb-5 w-full max-w-full box-border" style={{ minHeight: '600px', aspectRatio: '1280/1378', width: '100%' }}>
               <Image
                 src={`${basePath}/images/method/method-teaching.jpg`}
                 alt={t('imageAlt')}
