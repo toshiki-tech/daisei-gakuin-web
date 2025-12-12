@@ -15,7 +15,7 @@ export default function Access() {
           {/* Map */}
           <div className="bg-background rounded-xl overflow-hidden shadow-md h-[500px] lg:h-auto">
             <iframe
-              src="https://www.google.com/maps?q=中野区中央+3-34-3+メイヒル新中野+201&output=embed&zoom=17&maptype=roadmap&markers=color:red%7Csize:large%7C中野区中央+3-34-3+メイヒル新中野+201"
+              src="https://www.google.com/maps?q=中野区中央+3-34-3+メイヒル新中野+201&output=embed&zoom=18&maptype=roadmap&markers=color:red%7Csize:large%7Clabel:大成学院%7C中野区中央+3-34-3+メイヒル新中野+201"
               width="100%"
               height="100%"
               className="w-full h-full"

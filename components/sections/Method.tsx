@@ -1,30 +1,34 @@
 'use client'
 
 import Image from 'next/image'
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''
 
 export default function Method() {
   const t = useTranslations('method')
+  const locale = useLocale()
   
   const pointKeys = ['literature', 'martial', 'emotion', 'output', 'timeline']
 
   return (
     <section className="py-20 bg-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
+        <div className="grid lg:grid-cols-2 gap-12 items-start max-w-6xl mx-auto">
           {/* Left Content */}
-          <div>
-            <h2 id="method" className="text-3xl md:text-4xl font-bold text-ink mb-8 whitespace-pre-line">
+          <div className="flex flex-col">
+            <h2 id="method" className="text-3xl md:text-4xl font-bold text-ink mb-6 whitespace-pre-line leading-tight">
               {t('title')}
             </h2>
-            <ul className="space-y-4">
+            <p className="text-lg text-ink/70 leading-relaxed mb-6">
+              {t('overview')}
+            </p>
+            <ul className="space-y-5 flex-1">
               {pointKeys.map((key, index) => (
                 <li key={index} className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-6 h-6 rounded-full bg-primary flex items-center justify-center mt-0.5">
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary flex items-center justify-center mt-0.5">
                     <svg
-                      className="w-4 h-4 text-white"
+                      className="w-5 h-5 text-white"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -37,24 +41,34 @@ export default function Method() {
                       />
                     </svg>
                   </div>
-                  <p className="text-lg text-ink/80 leading-relaxed flex-1">
-                    {t(`points.${key}`)}
-                  </p>
+                  <div className="flex-1">
+                    <p className="text-lg text-ink/80 leading-normal font-medium">
+                      {t(`points.${key}`)}
+                    </p>
+                    <p className="text-base text-ink/60 leading-normal mt-1.5">
+                      {t(`points.${key}Description`)}
+                    </p>
+                  </div>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Right Image */}
-          <div className="hidden lg:block relative rounded-2xl overflow-hidden shadow-xl" style={{ aspectRatio: '1280/1378' }}>
-            <Image
-              src={`${basePath}/images/method/method-teaching.jpg`}
-              alt={t('imageAlt')}
-              fill
-              className="object-cover"
-              sizes="(max-width: 1024px) 0vw, 50vw"
-            />
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent" />
+          {/* Right Image with Description */}
+          <div className="flex flex-col pt-20 lg:pt-28">
+            <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white mb-5 w-full" style={{ minHeight: '600px', aspectRatio: '1280/1378' }}>
+              <Image
+                src={`${basePath}/images/method/method-teaching.jpg`}
+                alt={t('imageAlt')}
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent" />
+            </div>
+            <p className="text-sm md:text-base text-ink/70 leading-relaxed text-center px-4">
+              {locale === 'ja' ? '文と武を融合した多彩な活動' : '文武结合的丰富多彩活动'}
+            </p>
           </div>
         </div>
       </div>

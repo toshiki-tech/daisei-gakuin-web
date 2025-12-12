@@ -35,6 +35,16 @@ const nextConfig = {
   },
   // 禁用 trailingSlash 以确保路由正确
   trailingSlash: false,
+  webpack: (config, { isServer }) => {
+    // 解决 @formatjs 模块找不到的问题
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+      }
+    }
+    return config
+  },
 }
 
 module.exports = withNextIntl(nextConfig)

@@ -51,16 +51,16 @@ export default async function MethodPage({ params }: { params?: { locale?: strin
           {/* Main Content */}
           <section className="py-20 bg-white">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="grid lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto mb-20">
+              <div className="grid lg:grid-cols-2 gap-12 items-start max-w-6xl mx-auto mb-20">
                 {/* Left Content */}
-                <div>
+                <div className="flex flex-col">
                   <h2 className="text-2xl md:text-3xl font-bold text-ink mb-8">
                     {t('overviewTitle')}
                   </h2>
                   <p className="text-lg text-ink/70 leading-relaxed mb-8">
                     {t('overview')}
                   </p>
-                  <ul className="space-y-6">
+                  <ul className="space-y-6 flex-1">
                     {pointKeys.map((key, index) => (
                       <li key={index} className="flex items-start gap-4">
                         <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary flex items-center justify-center mt-0.5">
@@ -91,16 +91,21 @@ export default async function MethodPage({ params }: { params?: { locale?: strin
                   </ul>
                 </div>
 
-                {/* Right Image */}
-                <div className="relative rounded-2xl overflow-hidden shadow-xl" style={{ aspectRatio: '1280/1378' }}>
-                  <Image
-                    src={`${basePath}/images/method/method-teaching.jpg`}
-                    alt={t('imageAlt')}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 1024px) 100vw, 50vw"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent" />
+                {/* Right Image with Description */}
+                <div className="flex flex-col pt-16">
+                  <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white mb-5" style={{ minHeight: '650px', aspectRatio: '1280/1378' }}>
+                    <Image
+                      src={`${basePath}/images/method/method-teaching.jpg`}
+                      alt={t('imageAlt')}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent" />
+                  </div>
+                  <p className="text-sm md:text-base text-ink/70 leading-relaxed text-center px-4">
+                    {locale === 'ja' ? '文と武を融合した多彩な活動' : '文武结合的丰富多彩活动'}
+                  </p>
                 </div>
               </div>
 
