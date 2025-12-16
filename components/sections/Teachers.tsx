@@ -6,6 +6,11 @@ import { useLocale, useTranslations } from 'next-intl'
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''
 
+// 生成卡通头像 URL (使用 DiceBear Avataaars 风格)
+const getAvatarUrl = (seed: string) => {
+  return `https://api.dicebear.com/7.x/avataaars/svg?seed=${seed}&backgroundColor=b6e3f4,c0aede,ffd5dc,ffdfbf`
+}
+
 type TeachersProps = {
   showHeader?: boolean
   showMoreLink?: boolean
@@ -54,13 +59,14 @@ export default function Teachers({ showHeader = true, showMoreLink = true, compa
                   key={category}
                   className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-6 flex flex-col items-center text-center"
                 >
-                  <div className="relative w-24 h-24 mb-4 rounded-full overflow-hidden border-4 border-primary/10">
+                  <div className="relative w-24 h-24 mb-4 rounded-full overflow-hidden border-4 border-primary/10 bg-background flex items-center justify-center">
                     <Image
-                      src={`${basePath}/images/teachers/${teacher.image}`}
+                      src={getAvatarUrl(`teacher-${category}-${teacher.name}`)}
                       alt={teacher.name}
-                      fill
-                      className="object-cover"
-                      sizes="96px"
+                      width={96}
+                      height={96}
+                      className="rounded-full"
+                      unoptimized
                     />
                   </div>
                   <div className="flex flex-col gap-2 flex-1 w-full">
@@ -107,13 +113,14 @@ export default function Teachers({ showHeader = true, showMoreLink = true, compa
                         key={index}
                         className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-6 flex flex-col items-center text-center"
                       >
-                        <div className="relative w-28 h-28 mb-4 rounded-full overflow-hidden border-4 border-primary/10">
+                        <div className="relative w-28 h-28 mb-4 rounded-full overflow-hidden border-4 border-primary/10 bg-background flex items-center justify-center">
                           <Image
-                            src={`${basePath}/images/teachers/${teacher.image}`}
+                            src={getAvatarUrl(`teacher-${category}-${teacher.name}-${index}`)}
                             alt={teacher.name}
-                            fill
-                            className="object-cover"
-                            sizes="112px"
+                            width={112}
+                            height={112}
+                            className="rounded-full"
+                            unoptimized
                           />
                         </div>
                         <div className="flex flex-col gap-2 flex-1 w-full">

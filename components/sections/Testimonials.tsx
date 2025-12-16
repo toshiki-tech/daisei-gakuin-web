@@ -5,6 +5,14 @@ import { useTranslations, useLocale } from 'next-intl'
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''
 
+// 为每个学员生成唯一的卡通头像种子
+const avatarSeeds = ['student1', 'student2', 'student3', 'student4']
+
+// 生成卡通头像 URL (使用 DiceBear Avataaars 风格)
+const getAvatarUrl = (seed: string) => {
+  return `https://api.dicebear.com/7.x/avataaars/svg?seed=${seed}&backgroundColor=b6e3f4,c0aede,ffd5dc,ffdfbf`
+}
+
 export default function Testimonials() {
   const t = useTranslations('testimonials')
   const locale = useLocale() as 'ja' | 'zh'
@@ -24,13 +32,14 @@ export default function Testimonials() {
               className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow"
             >
               <div className="flex items-center gap-4 mb-4">
-                <div className="relative w-12 h-12 rounded-full overflow-hidden flex-shrink-0">
+                <div className="relative w-12 h-12 rounded-full overflow-hidden flex-shrink-0 bg-background flex items-center justify-center">
                   <Image
-                    src={`${basePath}/images/testimonials/student-${key}.jpg`}
+                    src={getAvatarUrl(avatarSeeds[index])}
                     alt={t(`items.${key}.name`)}
-                    fill
-                    className="object-cover"
-                    sizes="48px"
+                    width={48}
+                    height={48}
+                    className="rounded-full"
+                    unoptimized
                   />
                 </div>
                 <div>
