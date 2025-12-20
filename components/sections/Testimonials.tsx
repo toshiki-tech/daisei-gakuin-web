@@ -6,18 +6,21 @@ import { useTranslations, useLocale } from 'next-intl'
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''
 
 // 为每个学员生成唯一的卡通头像种子
-const avatarSeeds = ['student1', 'student2', 'student3', 'student4']
+const avatarSeeds = ['student-a-v2', 'student2', 'student3']
 
-// 生成卡通头像 URL (使用 DiceBear Avataaars 风格)
+// 生成卡通头像 URL (使用 DiceBear personas 风格，唯美写实的亚洲人风格)
 const getAvatarUrl = (seed: string) => {
-  return `https://api.dicebear.com/7.x/avataaars/svg?seed=${seed}&backgroundColor=b6e3f4,c0aede,ffd5dc,ffdfbf`
+  // 使用亚洲人特征的 seed，并设置亚洲人肤色
+  const asianSeed = `asian-${seed}`
+  const skinColor = 'ffdbb4' // 亚洲人典型肤色（黄种人肤色）
+  return `https://api.dicebear.com/7.x/personas/svg?seed=${encodeURIComponent(asianSeed)}&skinColor=${skinColor}`
 }
 
 export default function Testimonials() {
   const t = useTranslations('testimonials')
   const locale = useLocale() as 'ja' | 'zh'
   
-  const testimonialKeys = ['1', '2', '3', '4']
+  const testimonialKeys = ['1', '2', '3']
 
   return (
     <section className="py-20 bg-background">
@@ -25,7 +28,7 @@ export default function Testimonials() {
         <h2 className="text-3xl md:text-4xl font-bold text-center text-ink mb-12">
           {t('title')}
         </h2>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
+        <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {testimonialKeys.map((key, index) => (
             <div
               key={index}
