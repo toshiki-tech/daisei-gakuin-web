@@ -27,7 +27,8 @@ git push origin main
 ## 网站地址
 
 部署完成后，网站地址为：
-- `https://toshiki-tech.github.io/daisei-gakuin-web/`
+- `https://www.dcxy.jp/` (正式域名)
+- `https://toshiki-tech.github.io/daisei-gakuin-web/` (GitHub Pages 备用地址)
 
 ## 注意事项
 

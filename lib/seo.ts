@@ -8,8 +8,8 @@ const getSiteUrl = () => {
   if (process.env.VERCEL_URL) {
     return `https://${process.env.VERCEL_URL}`
   }
-  // GitHub Pages 默认 URL
-  return 'https://toshiki-tech.github.io'
+  // 正式域名
+  return 'https://www.dcxy.jp'
 }
 
 const siteUrl = getSiteUrl()
