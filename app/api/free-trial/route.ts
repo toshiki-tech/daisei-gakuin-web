@@ -83,6 +83,39 @@ export async function POST(request: NextRequest) {
     )
   }
 
+  // 构建邮件消息内容（包含免费试听申请的详细信息）
+  const messageContent = `
+お名前: ${insertData.name}
+メールアドレス: ${insertData.email}
+電話番号: ${insertData.phone}
+希望時間1: ${insertData.preferred_time_1 || '未指定'}
+希望時間2: ${insertData.preferred_time_2 || '未指定'}
+興味のあるコース: ${insertData.interested_courses ? insertData.interested_courses.join(', ') : '未指定'}
+中国語経験: ${insertData.chinese_experience ? 'あり' : 'なし'}
+学習期間: ${insertData.learning_period || '未指定'}
+中国訪問経験: ${insertData.visited_china ? 'あり' : 'なし'}
+訪問回数: ${insertData.china_visit_count || '未指定'}
+学習目的: ${insertData.learning_purpose || '未指定'}
+`.trim()
+
+  // 调用 form-notify Edge Function 发送邮件通知（异步，不阻塞响应）
+  // 即使邮件发送失败，也不影响数据插入的成功响应
+  supabaseServer.functions.invoke('form-notify', {
+    body: {
+      name: insertData.name,
+      email: insertData.email,
+      message: messageContent,
+    },
+  }).then(({ data: notifyData, error: notifyError }) => {
+    if (notifyError) {
+      console.error('Failed to send notification email:', notifyError)
+    } else {
+      console.log('Notification email sent successfully:', notifyData)
+    }
+  }).catch((err) => {
+    console.error('Error invoking form-notify function:', err)
+  })
+
   return new NextResponse(
     JSON.stringify({ success: true, data }),
     { 

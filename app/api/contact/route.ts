@@ -74,6 +74,24 @@ export async function POST(request: NextRequest) {
     )
   }
 
+  // 调用 form-notify Edge Function 发送邮件通知（异步，不阻塞响应）
+  // 即使邮件发送失败，也不影响数据插入的成功响应
+  supabaseServer.functions.invoke('form-notify', {
+    body: {
+      name: insertData.name,
+      email: insertData.email,
+      message: insertData.message,
+    },
+  }).then(({ data: notifyData, error: notifyError }) => {
+    if (notifyError) {
+      console.error('Failed to send notification email:', notifyError)
+    } else {
+      console.log('Notification email sent successfully:', notifyData)
+    }
+  }).catch((err) => {
+    console.error('Error invoking form-notify function:', err)
+  })
+
   return new NextResponse(
     JSON.stringify({ success: true, data }),
     { 

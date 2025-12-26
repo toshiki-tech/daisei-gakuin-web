@@ -66,6 +66,19 @@ Deno.serve(async (req) => {
   // 这里写你的接收通知的邮箱
   const toAddress = "dogiant@gmail.com";
 
+  // 使用 Resend 验证过的域名
+  // 优先使用环境变量 RESEND_FROM_EMAIL（如果设置了自定义域名）
+  // 否则使用已验证的自定义域名 notifications.dcxy.jp
+  const fromAddress = Deno.env.get("RESEND_FROM_EMAIL") || 
+    "大成学院フォーム通知 <noreply@notifications.dcxy.jp>";
+
+  console.log("Sending email notification:", {
+    from: fromAddress,
+    to: toAddress,
+    name,
+    email,
+  });
+
   const resendResponse = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: {
@@ -73,7 +86,7 @@ Deno.serve(async (req) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      from: "大成学院フォーム通知 <noreply@dcxy.jp>",
+      from: fromAddress,
       to: [toAddress],
       subject: "【大成学院】新しいフォーム送信があります",
       html: `
@@ -88,12 +101,18 @@ Deno.serve(async (req) => {
 
   if (!resendResponse.ok) {
     const errorText = await resendResponse.text();
-    console.error("Resend error:", errorText);
+    console.error("Resend error:", {
+      status: resendResponse.status,
+      statusText: resendResponse.statusText,
+      error: errorText,
+      from: fromAddress,
+    });
 
     return new Response(
       JSON.stringify({
         error: "Failed to send email",
         detail: errorText,
+        status: resendResponse.status,
       }),
       {
         status: 500,
@@ -104,6 +123,9 @@ Deno.serve(async (req) => {
       },
     );
   }
+
+  const resendData = await resendResponse.json();
+  console.log("Email sent successfully:", resendData);
 
   return new Response(
     JSON.stringify({ success: true }),
