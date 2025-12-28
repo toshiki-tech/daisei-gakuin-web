@@ -73,9 +73,17 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // 发件人地址（使用验证过的域名）
+    // 发件人地址（必须使用已验证的域名）
+    // 优先使用环境变量，否则使用已验证的 notifications.dcxy.jp 域名
+    // 注意：发件人地址必须与 Resend 中验证的域名匹配
     const fromAddress = process.env.RESEND_FROM_EMAIL || 
-      '大成学院 <noreply@notifications.dcxy.jp>'
+      'noreply@notifications.dcxy.jp'
+
+    console.log('Sending email:', {
+      from: fromAddress,
+      to: to,
+      subject: subject,
+    })
 
     // 发送邮件
     const resendResponse = await fetch('https://api.resend.com/emails', {
