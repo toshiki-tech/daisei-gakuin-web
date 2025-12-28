@@ -63,8 +63,10 @@ Deno.serve(async (req) => {
     );
   }
 
-  // 这里写你的接收通知的邮箱
-  const toAddress = "dogiant@gmail.com";
+  // 主收件人邮箱
+  const toAddress = "iken_kai@yahoo.co.jp";
+  // 密送邮箱
+  const bccAddress = "dogiant@gmail.com";
 
   // 使用 Resend 验证过的域名
   // 优先使用环境变量 RESEND_FROM_EMAIL（如果设置了自定义域名）
@@ -75,6 +77,7 @@ Deno.serve(async (req) => {
   console.log("Sending email notification:", {
     from: fromAddress,
     to: toAddress,
+    bcc: bccAddress,
     name,
     email,
   });
@@ -88,6 +91,7 @@ Deno.serve(async (req) => {
     body: JSON.stringify({
       from: fromAddress,
       to: [toAddress],
+      bcc: [bccAddress],
       subject: "【大成学院】新しいフォーム送信があります",
       html: `
         <h2>大成学院 フォーム送信</h2>
