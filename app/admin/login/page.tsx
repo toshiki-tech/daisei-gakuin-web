@@ -48,11 +48,11 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/10 via-background to-primary/5">
-      <div className="bg-white rounded-2xl shadow-2xl p-8 md:p-12 w-full max-w-md">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-ink mb-2">管理后台登录</h1>
-          <p className="text-ink/60">大成学院管理システム</p>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/10 via-background to-primary/5 p-4">
+      <div className="bg-white rounded-2xl shadow-2xl p-6 sm:p-8 md:p-12 w-full max-w-md">
+        <div className="text-center mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl font-bold text-ink mb-2">管理后台登录</h1>
+          <p className="text-sm sm:text-base text-ink/60">大成学院管理システム</p>
         </div>
 
         <form onSubmit={handleLogin} className="space-y-6">

@@ -2,14 +2,37 @@ import { Metadata } from 'next'
 
 // 获取网站 URL
 const getSiteUrl = () => {
+  // 优先使用明确设置的环境变量
   if (process.env.NEXT_PUBLIC_SITE_URL) {
     return process.env.NEXT_PUBLIC_SITE_URL
   }
-  if (process.env.VERCEL_URL) {
-    return `https://${process.env.VERCEL_URL}`
+  
+  // 在 Vercel 环境中
+  if (process.env.VERCEL) {
+    // 检查是否是预览部署（包含 vercel.app）
+    const isPreview = process.env.VERCEL_URL?.includes('vercel.app')
+    
+    if (isPreview) {
+      // 预览部署：使用生产域名，确保 metadata 使用正确的域名
+      // 这样即使是在预览环境中，OG 标签和 canonical 链接也指向生产域名
+      return 'https://dcxy.jp'
+    } else {
+      // 生产部署：如果有自定义域名，VERCEL_URL 应该是自定义域名
+      if (process.env.VERCEL_URL) {
+        return `https://${process.env.VERCEL_URL}`
+      }
+      // 如果没有 VERCEL_URL，使用生产域名
+      return 'https://dcxy.jp'
+    }
   }
-  // 正式域名
-  return 'https://www.dcxy.jp'
+  
+  // 本地开发环境
+  if (process.env.NODE_ENV === 'development') {
+    return 'http://localhost:3000'
+  }
+  
+  // 默认生产域名
+  return 'https://dcxy.jp'
 }
 
 const siteUrl = getSiteUrl()

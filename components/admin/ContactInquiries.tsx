@@ -128,11 +128,64 @@ export default function ContactInquiries() {
 
   return (
     <div>
-      <div className="mb-6 flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-ink">咨询表单 ({inquiries.length})</h2>
+      <div className="mb-4 sm:mb-6 flex items-center justify-between">
+        <h2 className="text-xl sm:text-2xl font-bold text-ink">咨询表单 ({inquiries.length})</h2>
       </div>
 
-      <div className="bg-white rounded-lg shadow-sm border border-ink/10 overflow-hidden">
+      {/* Mobile: Card Layout */}
+      <div className="block md:hidden space-y-4">
+        {inquiries.map((inquiry) => (
+          <div key={inquiry.id} className="bg-white rounded-lg shadow-sm border border-ink/10 p-4">
+            <div className="flex items-start justify-between mb-3">
+              <div className="flex-1 min-w-0">
+                <h3 className="text-base font-semibold text-ink truncate">{inquiry.name}</h3>
+                <p className="text-xs text-ink/60 mt-1 truncate">{inquiry.email}</p>
+                <p className="text-xs text-ink/60 mt-1">{inquiry.phone}</p>
+              </div>
+              <div className="ml-2">{getStatusBadge(inquiry.status)}</div>
+            </div>
+            
+            <div className="mt-3 pt-3 border-t border-ink/10">
+              <p className="text-xs text-ink/70 mb-2 line-clamp-2">
+                <span className="font-semibold">咨询内容：</span>
+                {inquiry.message}
+              </p>
+              <p className="text-xs text-ink/60 mb-3">
+                {new Date(inquiry.created_at).toLocaleString('zh-CN')}
+              </p>
+              
+              <div className="flex flex-wrap gap-2">
+                <button
+                  onClick={() => setViewingInquiry(inquiry)}
+                  className="flex-1 min-w-[80px] px-3 py-2 text-xs bg-ink/10 text-ink rounded hover:bg-ink/20 transition-colors"
+                >
+                  详情
+                </button>
+                <button
+                  onClick={() => handleReply(inquiry)}
+                  className="flex-1 min-w-[80px] px-3 py-2 text-xs bg-primary text-white rounded hover:bg-primary-dark transition-colors"
+                >
+                  回复
+                </button>
+                <select
+                  value={inquiry.status}
+                  onChange={(e) => updateStatus(inquiry.id, e.target.value)}
+                  disabled={updatingStatus}
+                  className="flex-1 min-w-[100px] px-2 py-2 text-xs border border-ink/20 rounded focus:outline-none focus:ring-2 focus:ring-primary"
+                >
+                  <option value="pending">待处理</option>
+                  <option value="contacted">已联系</option>
+                  <option value="resolved">已解决</option>
+                  <option value="cancelled">已取消</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Desktop: Table Layout */}
+      <div className="hidden md:block bg-white rounded-lg shadow-sm border border-ink/10 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead className="bg-ink/5">
@@ -197,20 +250,20 @@ export default function ContactInquiries() {
       {viewingInquiry && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
           <div className="bg-white rounded-2xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="sticky top-0 bg-white border-b border-ink/10 px-6 py-4 flex items-center justify-between">
-              <h3 className="text-xl font-bold text-ink">咨询详情</h3>
+            <div className="sticky top-0 bg-white border-b border-ink/10 px-4 sm:px-6 py-4 flex items-center justify-between">
+              <h3 className="text-lg sm:text-xl font-bold text-ink">咨询详情</h3>
               <button
                 onClick={() => setViewingInquiry(null)}
-                className="text-ink/60 hover:text-ink transition-colors"
+                className="text-ink/60 hover:text-ink transition-colors p-1"
               >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
             </div>
 
-            <div className="p-6 space-y-4">
-              <div className="grid grid-cols-2 gap-4">
+            <div className="p-4 sm:p-6 space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-semibold text-ink/60 mb-1">姓名</label>
                   <p className="text-ink">{viewingInquiry.name}</p>
@@ -245,19 +298,19 @@ export default function ContactInquiries() {
       {selectedInquiry && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
           <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="sticky top-0 bg-white border-b border-ink/10 px-6 py-4 flex items-center justify-between">
-              <h3 className="text-xl font-bold text-ink">回复邮件</h3>
+            <div className="sticky top-0 bg-white border-b border-ink/10 px-4 sm:px-6 py-4 flex items-center justify-between">
+              <h3 className="text-lg sm:text-xl font-bold text-ink">回复邮件</h3>
               <button
                 onClick={() => setSelectedInquiry(null)}
-                className="text-ink/60 hover:text-ink transition-colors"
+                className="text-ink/60 hover:text-ink transition-colors p-1"
               >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
             </div>
 
-            <div className="p-6 space-y-4">
+            <div className="p-4 sm:p-6 space-y-4">
               <div>
                 <label className="block text-sm font-semibold text-ink mb-2">收件人</label>
                 <input
