@@ -31,6 +31,7 @@ export default function FreeTrialApplications() {
   const [replySubject, setReplySubject] = useState('')
   const [replyMessage, setReplyMessage] = useState('')
   const [updatingStatus, setUpdatingStatus] = useState(false)
+  const [sendingEmail, setSendingEmail] = useState(false)
 
   useEffect(() => {
     fetchApplications()
@@ -102,17 +103,52 @@ export default function FreeTrialApplications() {
     setReplyMessage(`お問い合わせありがとうございます。\n\n${app.name}様の無料体験レッスンについて、以下の内容で承りました。\n\n詳細については、改めてご連絡いたします。`)
   }
 
-  const sendReply = () => {
-    // 这里可以集成邮件服务（如 SendGrid, Resend 等）
-    // 或者打开邮件客户端
-    const mailtoLink = `mailto:${replyEmail}?subject=${encodeURIComponent(replySubject)}&body=${encodeURIComponent(replyMessage)}`
-    window.location.href = mailtoLink
-    
-    // 标记为已联系
-    if (selectedApp) {
-      updateStatus(selectedApp.id, 'contacted')
+  const sendReply = async () => {
+    if (!replyEmail || !replySubject || !replyMessage) {
+      alert('すべての項目を入力してください')
+      return
     }
-    setSelectedApp(null)
+
+    setSendingEmail(true)
+    try {
+      const token = localStorage.getItem('admin_token')
+      if (!token) {
+        alert('認証が必要です')
+        return
+      }
+
+      const response = await fetch('/api/admin/send-email', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          to: replyEmail,
+          subject: replySubject,
+          message: replyMessage,
+        }),
+      })
+
+      const result = await response.json()
+
+      if (!response.ok) {
+        throw new Error(result.error || 'メール送信に失敗しました')
+      }
+
+      alert('メールを送信しました')
+      
+      // 标记为已联系
+      if (selectedApp) {
+        updateStatus(selectedApp.id, 'contacted')
+      }
+      setSelectedApp(null)
+    } catch (error: any) {
+      console.error('Error sending email:', error)
+      alert(error.message || 'メール送信に失敗しました')
+    } finally {
+      setSendingEmail(false)
+    }
   }
 
   const getStatusBadge = (status: string) => {
@@ -175,7 +211,7 @@ export default function FreeTrialApplications() {
                   onClick={() => handleReply(app)}
                   className="flex-1 min-w-[80px] px-3 py-2 text-xs bg-primary text-white rounded hover:bg-primary-dark transition-colors"
                 >
-                  回复
+                  返信
                 </button>
                 <select
                   value={app.status}
@@ -236,7 +272,7 @@ export default function FreeTrialApplications() {
                         onClick={() => handleReply(app)}
                         className="px-3 py-1 text-xs bg-primary text-white rounded hover:bg-primary-dark transition-colors"
                       >
-                        回复
+                        返信
                       </button>
                       <select
                         value={app.status}
@@ -343,7 +379,7 @@ export default function FreeTrialApplications() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
           <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <div className="sticky top-0 bg-white border-b border-ink/10 px-4 sm:px-6 py-4 flex items-center justify-between">
-              <h3 className="text-lg sm:text-xl font-bold text-ink">回复邮件</h3>
+              <h3 className="text-lg sm:text-xl font-bold text-ink">返信メール</h3>
               <button
                 onClick={() => setSelectedApp(null)}
                 className="text-ink/60 hover:text-ink transition-colors p-1"
@@ -356,7 +392,7 @@ export default function FreeTrialApplications() {
 
             <div className="p-4 sm:p-6 space-y-4">
               <div>
-                <label className="block text-sm font-semibold text-ink mb-2">收件人</label>
+                <label className="block text-sm font-semibold text-ink mb-2">宛先</label>
                 <input
                   type="email"
                   value={replyEmail}
@@ -366,7 +402,7 @@ export default function FreeTrialApplications() {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-ink mb-2">主题</label>
+                <label className="block text-sm font-semibold text-ink mb-2">件名</label>
                 <input
                   type="text"
                   value={replySubject}
@@ -376,7 +412,7 @@ export default function FreeTrialApplications() {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-ink mb-2">内容</label>
+                <label className="block text-sm font-semibold text-ink mb-2">本文</label>
                 <textarea
                   value={replyMessage}
                   onChange={(e) => setReplyMessage(e.target.value)}
@@ -390,13 +426,14 @@ export default function FreeTrialApplications() {
                   onClick={() => setSelectedApp(null)}
                   className="flex-1 px-4 py-2 border-2 border-ink/20 text-ink rounded-lg font-semibold hover:bg-ink/5 transition-colors"
                 >
-                  取消
+                  キャンセル
                 </button>
                 <button
                   onClick={sendReply}
-                  className="flex-1 px-4 py-2 bg-primary text-white rounded-lg font-semibold hover:bg-primary-dark transition-colors"
+                  disabled={sendingEmail}
+                  className="flex-1 px-4 py-2 bg-primary text-white rounded-lg font-semibold hover:bg-primary-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  发送邮件
+                  {sendingEmail ? '送信中...' : 'メール送信'}
                 </button>
               </div>
             </div>
