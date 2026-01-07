@@ -44,6 +44,14 @@ export default function ContactInquiries() {
         },
       })
 
+      if (response.status === 401) {
+        // Token 无效或过期，清除本地存储并跳转到登录页
+        localStorage.removeItem('admin_token')
+        localStorage.removeItem('admin_user')
+        window.location.href = '/admin/login'
+        return
+      }
+
       if (!response.ok) {
         throw new Error('获取数据失败')
       }
@@ -74,6 +82,14 @@ export default function ContactInquiries() {
         },
         body: JSON.stringify({ id, status: newStatus }),
       })
+
+      if (response.status === 401) {
+        // Token 无效或过期，清除本地存储并跳转到登录页
+        localStorage.removeItem('admin_token')
+        localStorage.removeItem('admin_user')
+        window.location.href = '/admin/login'
+        return
+      }
 
       if (!response.ok) {
         const error = await response.json()
@@ -122,6 +138,14 @@ export default function ContactInquiries() {
           message: replyMessage,
         }),
       })
+
+      if (response.status === 401) {
+        // Token 无效或过期，清除本地存储并跳转到登录页
+        localStorage.removeItem('admin_token')
+        localStorage.removeItem('admin_user')
+        window.location.href = '/admin/login'
+        return
+      }
 
       const result = await response.json()
 

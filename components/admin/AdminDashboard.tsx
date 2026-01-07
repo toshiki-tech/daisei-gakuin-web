@@ -19,19 +19,48 @@ export default function AdminDashboard() {
     try {
       const token = localStorage.getItem('admin_token')
       if (!token) {
+        // 清除可能存在的过期数据
+        localStorage.removeItem('admin_user')
         router.push('/admin/login')
         return
       }
 
-      // 验证 token 是否有效（可以通过调用一个验证接口）
-      // 这里简化处理，直接使用 token
-      // 实际应用中，可以从登录响应中保存用户信息
-      const userInfo = localStorage.getItem('admin_user')
-      if (userInfo) {
-        setUser(JSON.parse(userInfo))
+      // 验证 token 是否有效
+      const response = await fetch('/api/admin/auth/verify', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ token }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok || !data.valid) {
+        // Token 无效或过期，清除本地存储并跳转到登录页
+        localStorage.removeItem('admin_token')
+        localStorage.removeItem('admin_user')
+        router.push('/admin/login')
+        return
+      }
+
+      // Token 有效，更新用户信息
+      if (data.user) {
+        setUser(data.user)
+        // 更新 localStorage 中的用户信息
+        localStorage.setItem('admin_user', JSON.stringify(data.user))
+      } else {
+        // 如果 API 没有返回用户信息，尝试从 localStorage 读取
+        const userInfo = localStorage.getItem('admin_user')
+        if (userInfo) {
+          setUser(JSON.parse(userInfo))
+        }
       }
     } catch (error) {
       console.error('Error checking user:', error)
+      // 发生错误时，清除本地存储并跳转到登录页
+      localStorage.removeItem('admin_token')
+      localStorage.removeItem('admin_user')
       router.push('/admin/login')
     } finally {
       setLoading(false)
