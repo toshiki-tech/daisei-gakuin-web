@@ -6,7 +6,7 @@ import NewsDetail from '@/components/news/NewsDetail'
 import { defaultLocale } from '@/i18n/config'
 
 export async function generateStaticParams() {
-  const news = getAllNews()
+  const news = await getAllNews()
   return news.map((post) => ({
     slug: post.slug,
   }))
@@ -19,7 +19,7 @@ export default async function NewsDetailPage({
 }) {
   const locale = (params?.locale as 'ja' | 'zh') ?? defaultLocale
   const slug = params?.slug
-  const post = slug ? getNewsBySlug(slug) : null
+  const post = slug ? await getNewsBySlug(slug) : null
 
   if (!post) {
     notFound()

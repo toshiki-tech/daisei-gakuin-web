@@ -6,7 +6,7 @@ import { defaultLocale } from '@/i18n/config'
 
 export default async function NewsPage({ params }: { params?: { locale?: string } }) {
   const locale = (params?.locale as 'ja' | 'zh') ?? defaultLocale
-  const news = getAllNews()
+  const news = await getAllNews()
 
   return (
     <main className="min-h-screen">

@@ -10,9 +10,9 @@ export default createMiddleware({
 export const config = {
   matcher: [
     // Match all pathnames except for
-    // - … if they start with `/api`, `/_next`, `/_vercel` or `/admin`
+    // - … if they start with `/api`, `/_next`, `/_vercel`, `/admin` or `/studio`
     // - … the ones containing a dot (e.g. `favicon.ico`)
-    '/((?!api|_next|_vercel|admin|.*\\..*).*)'
+    '/((?!api|_next|_vercel|admin|studio|.*\\..*).*)'
   ]
 }
 
