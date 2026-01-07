@@ -1,9 +1,12 @@
-'use client'
+import StudioClient from './StudioClient'
 
-import { NextStudio } from 'next-sanity/studio'
-import config from '../../../sanity/sanity.config'
+// Required for static export mode (GitHub Pages)
+// For optional catch-all routes, return an array with an empty object
+export function generateStaticParams() {
+  return [{ index: [] }]
+}
 
 export default function StudioPage() {
-  return <NextStudio config={config} />
+  return <StudioClient />
 }
 
