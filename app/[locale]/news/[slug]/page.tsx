@@ -5,6 +5,9 @@ import { getNewsBySlug, getAllNews } from '@/lib/content/news'
 import NewsDetail from '@/components/news/NewsDetail'
 import { defaultLocale } from '@/i18n/config'
 
+// 设置重新验证时间为 0，确保新文章能及时显示
+export const revalidate = 0
+
 export async function generateStaticParams() {
   const news = await getAllNews()
   return news.map((post) => ({
