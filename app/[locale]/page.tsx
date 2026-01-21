@@ -10,13 +10,17 @@ import Access from '@/components/sections/Access'
 import FAQ from '@/components/sections/FAQ'
 import CTA from '@/components/sections/CTA'
 import Footer from '@/components/sections/Footer'
+import HomeNewsSection from '@/components/sections/HomeNewsSection'
+import { defaultLocale } from '@/i18n/config'
 
-export default function Home() {
+export default function Home({ params }: { params?: { locale?: string } }) {
   try {
     return (
       <main className="min-h-screen">
         <Header />
         <Hero />
+        {/* 首页新闻区：紧跟 Hero，下方模块化展示 */}
+        <HomeNewsSection />
         <Features />
         <Stats />
         <Courses />

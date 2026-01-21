@@ -1,6 +1,6 @@
 'use client'
 
-import { useLocale } from 'next-intl'
+import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { PortableText } from '@portabletext/react'
 import { NewsPost } from '@/types/content'
@@ -85,6 +85,12 @@ const portableTextComponents = {
 }
 
 export default function NewsDetail({ post, locale }: NewsDetailProps) {
+  const tNav = useTranslations('nav')
+  const backLabel =
+    locale === 'ja'
+      ? `${tNav('news')}一覧`
+      : `${tNav('news')}列表`
+
   return (
     <section className="py-20 bg-background">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -93,7 +99,7 @@ export default function NewsDetail({ post, locale }: NewsDetailProps) {
             href={`/${locale}/news`}
             className="inline-flex items-center text-primary hover:text-primary-dark mb-8 transition-colors"
           >
-            ← お知らせ一覧
+            ← {backLabel}
           </Link>
 
           <article className="bg-white rounded-xl overflow-hidden shadow-lg">

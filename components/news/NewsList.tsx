@@ -1,6 +1,6 @@
 'use client'
 
-import { useTranslations, useLocale } from 'next-intl'
+import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import Image from 'next/image'
 import { NewsPost } from '@/types/content'
@@ -11,13 +11,13 @@ interface NewsListProps {
 }
 
 export default function NewsList({ news, locale }: NewsListProps) {
-  const t = useTranslations('common')
+  const tNav = useTranslations('nav')
 
   return (
     <section className="py-20 bg-background">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <h1 className="text-3xl md:text-4xl font-bold text-center text-ink mb-12">
-          お知らせ
+          {tNav('news')}
         </h1>
         <div className="max-w-4xl mx-auto space-y-6">
           {news.map((post) => (
