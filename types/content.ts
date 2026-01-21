@@ -1,8 +1,15 @@
+import type { PortableTextBlock } from '@portabletext/types'
+
 export type Locale = 'ja' | 'zh'
 
 export interface LocalizedString {
   ja: string
   zh: string
+}
+
+export interface LocalizedPortableText {
+  ja: PortableTextBlock[]
+  zh: PortableTextBlock[]
 }
 
 export interface Course {
@@ -24,7 +31,7 @@ export interface NewsPost {
   id: string
   slug: string
   title: LocalizedString
-  content: LocalizedString
+  content: LocalizedPortableText
   excerpt?: LocalizedString
   featuredImage?: string
   publishedAt: string

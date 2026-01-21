@@ -60,13 +60,121 @@ export default defineType({
         {
           name: 'ja',
           title: '日本語',
-          type: 'text',
+          type: 'array',
+          of: [
+            {
+              type: 'block',
+              styles: [
+                { title: 'Normal', value: 'normal' },
+                { title: 'H2', value: 'h2' },
+                { title: 'H3', value: 'h3' },
+                { title: 'Quote', value: 'blockquote' },
+              ],
+              lists: [
+                { title: 'Bullet', value: 'bullet' },
+                { title: 'Number', value: 'number' },
+              ],
+              marks: {
+                decorators: [
+                  { title: 'Strong', value: 'strong' },
+                  { title: 'Emphasis', value: 'em' },
+                ],
+                annotations: [
+                  {
+                    title: 'URL',
+                    name: 'link',
+                    type: 'object',
+                    fields: [
+                      {
+                        title: 'URL',
+                        name: 'href',
+                        type: 'url',
+                      },
+                    ],
+                  },
+                ],
+              },
+            },
+            {
+              type: 'image',
+              fields: [
+                {
+                  name: 'alt',
+                  title: '替代文本',
+                  type: 'string',
+                  validation: (Rule) => Rule.required(),
+                },
+                {
+                  name: 'caption',
+                  title: '图片说明',
+                  type: 'string',
+                },
+              ],
+              options: {
+                hotspot: true,
+              },
+            },
+          ],
           validation: (Rule) => Rule.required(),
         },
         {
           name: 'zh',
           title: '中文',
-          type: 'text',
+          type: 'array',
+          of: [
+            {
+              type: 'block',
+              styles: [
+                { title: 'Normal', value: 'normal' },
+                { title: 'H2', value: 'h2' },
+                { title: 'H3', value: 'h3' },
+                { title: 'Quote', value: 'blockquote' },
+              ],
+              lists: [
+                { title: 'Bullet', value: 'bullet' },
+                { title: 'Number', value: 'number' },
+              ],
+              marks: {
+                decorators: [
+                  { title: 'Strong', value: 'strong' },
+                  { title: 'Emphasis', value: 'em' },
+                ],
+                annotations: [
+                  {
+                    title: 'URL',
+                    name: 'link',
+                    type: 'object',
+                    fields: [
+                      {
+                        title: 'URL',
+                        name: 'href',
+                        type: 'url',
+                      },
+                    ],
+                  },
+                ],
+              },
+            },
+            {
+              type: 'image',
+              fields: [
+                {
+                  name: 'alt',
+                  title: '替代文本',
+                  type: 'string',
+                  validation: (Rule) => Rule.required(),
+                },
+                {
+                  name: 'caption',
+                  title: '图片说明',
+                  type: 'string',
+                },
+              ],
+              options: {
+                hotspot: true,
+              },
+            },
+          ],
           validation: (Rule) => Rule.required(),
         },
       ],
@@ -108,4 +216,7 @@ export default defineType({
     },
   },
 })
+
+
+
 

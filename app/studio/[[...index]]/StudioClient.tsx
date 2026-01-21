@@ -7,3 +7,6 @@ export default function StudioClient() {
   return <NextStudio config={config} />
 }
 
+
+
+
