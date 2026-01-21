@@ -13,6 +13,9 @@ import Footer from '@/components/sections/Footer'
 import HomeNewsSection from '@/components/sections/HomeNewsSection'
 import { defaultLocale } from '@/i18n/config'
 
+// 首页需要实时反映最新新闻，关闭静态缓存
+export const revalidate = 0
+
 export default function Home({ params }: { params?: { locale?: string } }) {
   try {
     return (
