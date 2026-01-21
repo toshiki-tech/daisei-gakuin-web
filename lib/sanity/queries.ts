@@ -72,7 +72,7 @@ export async function getAllNews(): Promise<NewsPost[]> {
     // 调试：打印转换后的数据
     if (process.env.NODE_ENV === 'development') {
       console.log('Transformed news count:', transformed.length)
-      console.log('Transformed news:', transformed.map(n => ({
+      console.log('Transformed news:', transformed.map((n: NewsPost) => ({
         id: n.id,
         slug: n.slug,
         title: n.title,
