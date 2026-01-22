@@ -5,6 +5,11 @@ import { locales, defaultLocale } from '@/i18n/config'
 import type { Metadata } from 'next'
 import LocaleHtml from '@/components/LocaleHtml'
 import { generateSeoMetadata, getAbsoluteUrl } from '@/lib/seo'
+import StructuredData from '@/components/StructuredData'
+import {
+  generateOrganizationSchema,
+  generateLocalBusinessSchema,
+} from '@/lib/seo/structured-data'
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }))
@@ -92,9 +97,16 @@ export default async function LocaleLayout({
       messages = (await import(`../../messages/${locale}.json`)).default
     }
 
+    const localeTyped = locale as 'ja' | 'zh'
+    
+    // 生成结构化数据
+    const organizationSchema = generateOrganizationSchema(localeTyped)
+    const localBusinessSchema = generateLocalBusinessSchema(localeTyped)
+
     return (
       <NextIntlClientProvider messages={messages} locale={locale}>
         <LocaleHtml />
+        <StructuredData data={[organizationSchema, localBusinessSchema]} />
         {children}
       </NextIntlClientProvider>
     )
@@ -113,9 +125,14 @@ export default async function LocaleLayout({
     // Fallback to default locale
     const fallbackLocale = defaultLocale
     const fallbackMessages = (await import(`../../messages/${fallbackLocale}.json`)).default
+    const fallbackLocaleTyped = fallbackLocale as 'ja' | 'zh'
+    const organizationSchema = generateOrganizationSchema(fallbackLocaleTyped)
+    const localBusinessSchema = generateLocalBusinessSchema(fallbackLocaleTyped)
+
     return (
       <NextIntlClientProvider messages={fallbackMessages} locale={fallbackLocale}>
         <LocaleHtml />
+        <StructuredData data={[organizationSchema, localBusinessSchema]} />
         {children}
       </NextIntlClientProvider>
     )

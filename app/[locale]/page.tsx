@@ -11,15 +11,31 @@ import FAQ from '@/components/sections/FAQ'
 import CTA from '@/components/sections/CTA'
 import Footer from '@/components/sections/Footer'
 import HomeNewsSection from '@/components/sections/HomeNewsSection'
+import StructuredData from '@/components/StructuredData'
 import { defaultLocale } from '@/i18n/config'
+import { getAllFAQs } from '@/lib/content/faq'
+import { generateFAQPageSchema } from '@/lib/seo/structured-data'
 
 // 首页需要实时反映最新新闻，关闭静态缓存
 export const revalidate = 0
 
 export default function Home({ params }: { params?: { locale?: string } }) {
   try {
+    const locale = (params?.locale as 'ja' | 'zh') ?? defaultLocale
+    const localeTyped = locale as 'ja' | 'zh'
+    
+    // 生成 FAQ 结构化数据
+    const faqs = getAllFAQs()
+    const faqSchema = generateFAQPageSchema(
+      faqs.map((faq) => ({
+        question: faq.question[localeTyped],
+        answer: faq.answer[localeTyped],
+      }))
+    )
+
     return (
       <main className="min-h-screen">
+        <StructuredData data={faqSchema} />
         <Header />
         <Hero />
         {/* 首页新闻区：紧跟 Hero，下方模块化展示 */}
