@@ -29,13 +29,19 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --legacy-peer-deps
 
       - name: Build
         run: npm run build
         env:
+          NODE_ENV: production
           GITHUB_ACTIONS: 'true'
+          GITHUB_REPOSITORY: ${{ github.repository }}
           NEXT_PUBLIC_BASE_PATH: /daisei-gakuin-web
+          NEXT_PUBLIC_SITE_URL: https://dcxy.jp
+          # Sanity 环境变量（可选，如果缺少会使用 fallback 数据）
+          NEXT_PUBLIC_SANITY_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_SANITY_PROJECT_ID }}
+          NEXT_PUBLIC_SANITY_DATASET: production
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
