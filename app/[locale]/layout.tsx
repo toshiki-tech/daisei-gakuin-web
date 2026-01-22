@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import { locales, defaultLocale } from '@/i18n/config'
 import type { Metadata } from 'next'
 import LocaleHtml from '@/components/LocaleHtml'
+import GoogleAnalytics from '@/components/GoogleAnalytics'
 import { generateSeoMetadata, getAbsoluteUrl } from '@/lib/seo'
 import StructuredData from '@/components/StructuredData'
 import {
@@ -106,6 +107,7 @@ export default async function LocaleLayout({
     return (
       <NextIntlClientProvider messages={messages} locale={locale}>
         <LocaleHtml />
+        <GoogleAnalytics />
         <StructuredData data={[organizationSchema, localBusinessSchema]} />
         {children}
       </NextIntlClientProvider>
@@ -132,6 +134,7 @@ export default async function LocaleLayout({
     return (
       <NextIntlClientProvider messages={fallbackMessages} locale={fallbackLocale}>
         <LocaleHtml />
+        <GoogleAnalytics />
         <StructuredData data={[organizationSchema, localBusinessSchema]} />
         {children}
       </NextIntlClientProvider>
