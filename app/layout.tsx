@@ -1,4 +1,5 @@
 import './globals.css'
+import GoogleAnalytics from '@/components/GoogleAnalytics'
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''
 
@@ -21,7 +22,10 @@ export default function RootLayout({
         <link rel="apple-touch-icon" sizes="180x180" href={`${basePath}/daisei-icons/apple-touch-icon-180.png`} />
         <link rel="manifest" href={`${basePath}/manifest.json`} />
       </head>
-      <body>{children}</body>
+      <body>
+        <GoogleAnalytics />
+        {children}
+      </body>
     </html>
   )
 }
