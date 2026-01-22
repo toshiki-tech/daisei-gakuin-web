@@ -6,6 +6,7 @@ const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID
 
 export default function GoogleAnalytics() {
   // 如果环境变量未设置，不加载 Google Analytics
+  // 确保在 Vercel 环境变量中设置了 NEXT_PUBLIC_GA_MEASUREMENT_ID=G-3X5LHX4V3D
   if (!GA_MEASUREMENT_ID) {
     return null
   }
